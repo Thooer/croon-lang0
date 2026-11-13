@@ -627,6 +627,7 @@ name = "lang0-wasm"
 version = "0.0.0"
 dependencies = [
  "croon-eval",
+ "croon-port",
  "kernel",
  "lang0",
  "serde_json",

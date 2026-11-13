@@ -13,7 +13,11 @@ rust-version = "1.99"
 publish = false
 
 [workspace.dependencies]
+# 三个仓库并排放：croon、（本仓库）、croon-app。跨仓依赖只在这里写一次路径。
+croon-eval = { path = "../croon/crates/eval" }
+croon-port = { path = "../croon/crates/port" }
 croon-tree = { path = "../croon/crates/tree" }
+kernel = { path = "../croon/crates/kernel" }
 serde_json = { version = "1", default-features = false, features = ["std", "float_roundtrip"] }
 ruff_python_parser = { version = "=0.0.21", default-features = false }
 ruff_python_ast = { version = "=0.0.21", default-features = false }

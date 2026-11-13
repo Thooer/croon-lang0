@@ -2,6 +2,7 @@
 //! 参考：docs/Engineering.md（隔离）；croon:docs/Kernel/Instance.md「执行」。
 
 use croon_eval::host::{CheckError, HostError, Language, Read, Session};
+use croon_port::store::{Budgets, Bundle};
 use kernel::host::Config;
 use kernel::index::kernel_spec;
 use kernel::kernel::{Conn, Kernel};
@@ -33,7 +34,7 @@ impl Read for Empty {
     fn code_json(&self, _: &str) -> Result<Option<Json>, HostError> {
         Ok(None)
     }
-    fn code_bundle(&self, _: &str) -> Result<Option<kernel::store::Bundle>, HostError> {
+    fn code_bundle(&self, _: &str) -> Result<Option<Bundle>, HostError> {
         Ok(None)
     }
     fn bytes(&self, _: &str, _: &[String]) -> Result<Option<Vec<u8>>, HostError> {
@@ -42,7 +43,7 @@ impl Read for Empty {
     fn json(&self, _: &str, _: &[String]) -> Result<Option<Json>, HostError> {
         Ok(None)
     }
-    fn bundle(&self, _: &str, _: &[String]) -> Result<Option<kernel::store::Bundle>, HostError> {
+    fn bundle(&self, _: &str, _: &[String]) -> Result<Option<Bundle>, HostError> {
         Ok(None)
     }
 }
@@ -80,7 +81,7 @@ impl Language for Native {
 fn config(lang: &WasmLang0) -> Config {
     Config {
         languages: vec![Box::new(lang.clone()), Box::new(Native)],
-        budgets: kernel::store::Budgets {
+        budgets: Budgets {
             nodes: 10000,
             read_bytes: 32 * 1024 * 1024,
             write_bytes: 32 * 1024 * 1024,
