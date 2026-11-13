@@ -1,5 +1,5 @@
 //! WASM 与原生的契约接合：既有 Delegate，以及宿主故障后同一 Instance 的重开。
-//! 参考：docs/Lang0/Engineering.md（隔离）；docs/Kernel/Instance.md（执行）。
+//! 参考：docs/Engineering.md（隔离）；croon:docs/Kernel/Instance.md「执行」。
 
 use croon_eval::host::{CheckError, HostError, Language, Read, Session};
 use kernel::host::Config;

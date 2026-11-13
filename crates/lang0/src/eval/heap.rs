@@ -1,5 +1,5 @@
 //! Instance 独占的槽堆。槽间只存下标，回收不依赖引用计数或宿主地址。
-//! 参考：docs/Lang0/Engineering.md（堆）；docs/Lang0/Evaluator.md（资源）。
+//! 参考：docs/Engineering.md（堆）；docs/Evaluator.md（资源）。
 
 use super::value::*;
 use std::cell::{Cell as Counter, Ref, RefCell, RefMut};

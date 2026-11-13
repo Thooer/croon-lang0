@@ -1,6 +1,6 @@
 //! 值上的运算：相等、比较、hash、下标、in、迭代、算术。语义照 Python 3.12，报错用 lang0.messages。
-//! 每个运算按读入与产出的数据量计步，见 docs/Lang0/Evaluator.md 的「资源」。
-//! 参考：docs/Lang0/Subset.md（形状之外的规则、异常的消息）；docs/Lang0/Evaluator.md（资源）。
+//! 每个运算按读入与产出的数据量计步，见 docs/Evaluator.md 的「资源」。
+//! 参考：docs/Subset.md（形状之外的规则、异常的消息）；docs/Evaluator.md（资源）。
 use super::heap::{Heap, Slot};
 
 use std::cmp::Ordering;

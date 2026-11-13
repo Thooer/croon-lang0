@@ -1,5 +1,5 @@
 //! Lang0：构造检查与确定的顺序求值。
-//! 参考：docs/Lang0/README.md（模块、Interface）；docs/Lang0/Evaluator.md（构造时检查）；docs/Kernel/Language.md（插口）。
+//! 参考：docs/README.md（模块、Interface）；docs/Evaluator.md（构造时检查）；croon:docs/Kernel/Language.md「插口」。
 
 mod ast;
 mod blocks;

@@ -1,5 +1,5 @@
 //! 首版清单从文档取；作用域先收绑定，再查每次使用。
-//! 参考：docs/Lang0/Subset.md（清单、拦下时说什么）；docs/Lang0/Evaluator.md（构造时检查）。
+//! 参考：docs/Subset.md（清单、拦下时说什么）；docs/Evaluator.md（构造时检查）。
 
 mod expression;
 mod types;

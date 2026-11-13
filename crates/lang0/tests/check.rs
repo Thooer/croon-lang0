@@ -1,5 +1,5 @@
 //! 构造检查：用最小源码检验子集、绑定与 Interface 的规则。
-//! 参考：docs/Lang0/Subset.md（拦下时说什么）；docs/Lang0/README.md（Interface）。
+//! 参考：docs/Subset.md（拦下时说什么）；docs/README.md（Interface）。
 
 #[path = "cases/imports.rs"]
 mod imports;

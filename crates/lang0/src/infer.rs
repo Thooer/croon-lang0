@@ -1,5 +1,5 @@
 //! Interface 从 AST 推导，不对标注求值；名字只追到模块顶层唯一的绑定。
-//! 参考：docs/Lang0/README.md（Interface、值与类型、Port 与交出）。
+//! 参考：docs/README.md（Interface、值与类型、Port 与交出）。
 
 mod constructors;
 mod literal;

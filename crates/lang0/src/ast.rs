@@ -1,5 +1,5 @@
 //! Lang0 自己的 AST；Ruff 的类型只出现在 parser 模块。位置是源码的字节偏移。
-//! 参考：docs/Lang0/Engineering.md（选择）；docs/Lang0/Subset.md（清单）。
+//! 参考：docs/Engineering.md（选择）；docs/Subset.md（清单）。
 
 use std::ops::Range;
 

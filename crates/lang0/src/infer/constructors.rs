@@ -1,5 +1,5 @@
 //! TypedDict、Schema、Port 与 Inbox 的静态构造。
-//! 参考：docs/Lang0/README.md（值与类型、Port 与交出）。
+//! 参考：docs/README.md（值与类型、Port 与交出）。
 
 use super::*;
 

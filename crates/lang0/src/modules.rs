@@ -1,5 +1,5 @@
 //! import 只经 Read 展开模块目录；宿主文件系统不参与名字解析。
-//! 参考：docs/Lang0/README.md（模块）；docs/Kernel/Definition/Cognition.md（body 的边界）。
+//! 参考：docs/README.md（模块）；croon:docs/Kernel/Definition/Cognition.md「body 的边界」。
 
 use crate::{
     ast::*,
@@ -164,7 +164,7 @@ impl CodeRead<'_> {
         let content = self
             .json(&bundle.content)
             .ok_or_else(|| format!("读不到目录内容 {}", bundle.content))?;
-        directory::validate(&bundle, &content).map_err(|error| error.to_string())?;
+        croon_tree::validate(&bundle, &content).map_err(|error| error.to_string())?;
         Ok(content)
     }
 }

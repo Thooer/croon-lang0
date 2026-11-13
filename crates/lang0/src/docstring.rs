@@ -1,5 +1,5 @@
 //! docstring 的清理与 Args 提取，不求值函数。
-//! 参考：docs/Lang0/README.md（Interface）。
+//! 参考：docs/README.md（Interface）。
 
 use crate::ast::{FunctionDef, StmtKind};
 use std::collections::BTreeMap;

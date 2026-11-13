@@ -1,5 +1,5 @@
 //! 异常的消息：取自 Subset.md 的 lang0.messages，按 id 选类与模板，填上占位。
-//! 参考：docs/Lang0/Subset.md（异常的消息）。
+//! 参考：docs/Subset.md（异常的消息）。
 
 use super::heap::Heap;
 use std::sync::OnceLock;

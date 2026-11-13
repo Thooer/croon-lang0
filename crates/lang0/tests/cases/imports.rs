@@ -1,5 +1,5 @@
 //! import 的检查经 Read，不从宿主路径旁路读内容。
-//! 参考：docs/Lang0/README.md（模块）；docs/Kernel/Language.md（实现）。
+//! 参考：docs/README.md（模块）；croon:docs/Kernel/Language.md「实现」。
 
 use super::support::*;
 use croon_eval::host::Language;

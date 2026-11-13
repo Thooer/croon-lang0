@@ -1,5 +1,5 @@
 //! 登记 lang0@1 的 WASM 装配与宿主临时保护。
-//! 参考：docs/Lang0/Engineering.md（隔离）；docs/Kernel/Language.md（实现）。
+//! 参考：docs/Engineering.md（隔离）；croon:docs/Kernel/Language.md「实现」。
 
 mod blocks;
 

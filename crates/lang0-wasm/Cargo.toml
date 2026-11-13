@@ -12,5 +12,5 @@ croon-eval = { path = "../../../croon/crates/eval" }
 serde_json = { workspace = true }
 wasmtime = { version = "=38.0.4", default-features = false, features = ["std", "runtime", "cranelift"] }
 [dev-dependencies]
-kernel = { path = "../../../croon/crates/kernel", features = ["runtime"] }
+kernel = { path = "../../../croon/crates/kernel" }
 lang0 = { path = "../lang0", default-features = false }

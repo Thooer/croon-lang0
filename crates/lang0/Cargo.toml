@@ -8,12 +8,12 @@ publish.workspace = true
 
 [dependencies]
 croon-eval = { path = "../../../croon/crates/eval" }
-directory = { path = "../../../croon-app/crates/directory" }
+croon-tree = { workspace = true }
 serde_json = { workspace = true }
 ruff_python_parser = { version = "=0.0.21", default-features = false }
 ruff_python_ast = { version = "=0.0.21", default-features = false }
 ruff_text_size = { version = "=0.0.21", default-features = false }
-# 求值器的 int 照 Python 无界：见 docs/Lang0/README.md 的「值与类型」。
+# 求值器的 int 照 Python 无界：见 docs/README.md 的「值与类型」。
 num-bigint = { version = "=0.4.8", default-features = false, features = ["std"] }
 num-integer = { version = "=0.1.47", default-features = false, features = ["std"] }
 num-traits = { version = "=0.2.19", default-features = false, features = ["std"] }

@@ -1,5 +1,5 @@
 //! Interface 的机器预期以 Delegate 为主；这里检查推导规则的独立边角。
-//! 参考：docs/Lang0/README.md（Interface、值与类型、Port 与交出）。
+//! 参考：docs/README.md（Interface、值与类型、Port 与交出）。
 
 use super::support::*;
 use croon_eval::host::Language;

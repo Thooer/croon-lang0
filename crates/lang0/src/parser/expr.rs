@@ -1,5 +1,5 @@
 //! 表达式转换；保留任意精度整数的十进制文本，不提前收窄到 Value。
-//! 参考：docs/Lang0/README.md（值与类型）；docs/Lang0/Subset.md（清单）。
+//! 参考：docs/README.md（值与类型）；docs/Subset.md（清单）。
 
 use super::span;
 use crate::ast::*;

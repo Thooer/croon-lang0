@@ -1,5 +1,5 @@
 //! 绑定按整个作用域收集：赋值、参数、import、except 与推导式各归自己的作用域。
-//! 参考：docs/Lang0/Subset.md（清单）；docs/Lang0/README.md（Interface）。
+//! 参考：docs/Subset.md（清单）；docs/README.md（Interface）。
 
 use crate::ast::*;
 use std::collections::BTreeMap;

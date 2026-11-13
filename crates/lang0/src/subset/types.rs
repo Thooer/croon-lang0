@@ -1,5 +1,5 @@
 //! 类型位置与推导用的字面量：类型位置只收类型的写法；TypedDict、Port、Schema 的字面量参数不论 main 用不用到都查。
-//! 参考：docs/Lang0/Subset.md（清单）；docs/Lang0/README.md（Interface、Port 与交出）。
+//! 参考：docs/Subset.md（清单）；docs/README.md（Interface、Port 与交出）。
 
 use super::*;
 

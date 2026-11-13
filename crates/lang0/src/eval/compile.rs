@@ -1,6 +1,6 @@
 //! 源码编译成栈式 IR：每个函数、模块与推导式一份 Code，帧与续体是求值器的数据。
 //! 求值顺序照 Python：键的序号就是效果的先后。
-//! 参考：docs/Lang0/Engineering.md（选择、降）；docs/Lang0/Evaluator.md（键）；docs/Lang0/Subset.md（清单）。
+//! 参考：docs/Engineering.md（选择、降）；docs/Evaluator.md（键）；docs/Subset.md（清单）。
 
 use std::collections::BTreeMap;
 use std::rc::Rc;

@@ -1,5 +1,5 @@
 //! Python 3.12 的解析与到自有 AST 的转换；版本兼容错误也属于解析失败。
-//! 参考：docs/Lang0/Engineering.md（选择）；docs/Lang0/Subset.md（清单）。
+//! 参考：docs/Engineering.md（选择）；docs/Subset.md（清单）。
 
 mod expr;
 

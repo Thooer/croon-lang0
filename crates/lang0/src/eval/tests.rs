@@ -1,5 +1,5 @@
 //! 顺序求值器的运行时回归；预期不从求值器输出生成。
-//! 参考：docs/Lang0/Evaluator.md（求值、键、文本、资源）；docs/Lang0/Subset.md（异常的消息）。
+//! 参考：docs/Evaluator.md（求值、键、文本、资源）；docs/Subset.md（异常的消息）。
 use super::*;
 struct Empty;
 impl Read for Empty {

@@ -1,5 +1,5 @@
 //! 无 WASI 的 Lang0 guest；Read 借用只在一次导出调用里使用。
-//! 参考：docs/Lang0/Engineering.md（隔离）；docs/Kernel/Language.md（插口）。
+//! 参考：docs/Engineering.md（隔离）；croon:docs/Kernel/Language.md「插口」。
 
 use croon_eval::host::{CheckError, HostError, Language, Read, Session};
 use serde_json::{Value, json};

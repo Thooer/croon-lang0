@@ -1,5 +1,5 @@
 //! 顺序求值器：栈、帧、闭包与待结果的 Atom 都是数据，不借宿主栈挂起。
-//! 参考：docs/Lang0/Engineering.md（选择、降）；docs/Lang0/Evaluator.md（求值、键、资源）。
+//! 参考：docs/Engineering.md（选择、降）；docs/Evaluator.md（求值、键、资源）。
 mod bridge;
 mod builtin;
 mod compile;

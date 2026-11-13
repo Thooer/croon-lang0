@@ -1,5 +1,5 @@
 //! 表达式的清单、类型位置与静态可知的方法限制。
-//! 参考：docs/Lang0/Subset.md（清单、拦下时说什么）；docs/Lang0/README.md（运行时对象）。
+//! 参考：docs/Subset.md（清单、拦下时说什么）；docs/README.md（运行时对象）。
 
 use super::*;
 

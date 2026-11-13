@@ -1,5 +1,5 @@
 //! 生成模块的渲染：把 JSON 写成 Lang0 里的 `Port(...)`、`Schema(...)` 字面量。
-//! 参考：docs/Lang0/README.md（模块、Port 与交出）；docs/Library/README.md（地图）。
+//! 参考：docs/README.md（模块、Port 与交出）；croon-app:docs/Library/README.md「地图」。
 //!
 //! 这里不认识任何具体的 Port：Kernel 有哪几个 Port、模型服务的形状是什么，由提供那些形状的
 //! 一方给出。所以它把「谁有什么」与「Lang0 怎么写」分开，一份形状只有一个出处。

@@ -1,5 +1,5 @@
 //! 契约边界：Value 与求值器值、引用值与 Handle 的转换。
-//! 参考：docs/Kernel/Language.md（契约边界上的转换）；docs/Lang0/README.md（值与类型、运行时对象）。
+//! 参考：croon:docs/Kernel/Language.md「契约边界上的转换」；docs/README.md（值与类型、运行时对象）。
 use super::heap::{Heap, Slot};
 
 use super::{

@@ -1,6 +1,6 @@
-//! 求值器的值：数据与运行时对象。值的语义照 Python 3.12，与它不同的地方列在 docs/Lang0/README.md
-//! 的「拦什么」与 Subset.md 的「形状之外的规则」。
-//! 参考：docs/Lang0/README.md（值与类型、Port 与交出、运行时对象）；docs/Lang0/Subset.md（形状之外的规则）。
+//! 求值器的值：数据与运行时对象。值的语义照 Python 3.12，与它不同的地方列在 docs/README.md
+//! 的「拦什么」与 docs/Subset.md 的「形状之外的规则」。
+//! 参考：docs/README.md（值与类型、Port 与交出、运行时对象）；docs/Subset.md（形状之外的规则）。
 
 use super::heap::{Heap, Slot};
 use num_bigint::BigInt;

@@ -1,5 +1,5 @@
 //! block 表：schema/ 下的 JSON 文件直接编进来，不经过 build.rs。
-//! 参考：docs/Kernel/Engineering.md（接口）。
+//! 参考：croon:docs/Kernel/Engineering.md「接口」。
 
 pub use croon_eval::blocks::{Block, get_in, json_in};
 

@@ -1,6 +1,6 @@
 """CPython 上的 `croon` 参考实现：只用来产出预期与作差分的参照，不是 Lang0。
 
-推导按 docs/Lang0/README.md 的「Interface」与「推导」，在 AST 上做，不对标注求值。
+推导按 docs/README.md 的「Interface」与「推导」，在 AST 上做，不对标注求值。
 Atom 不真的交给 Kernel：交出与取由 `Driver` 按脚本给结果，并按 Lang0 的键记下。
 """
 import ast

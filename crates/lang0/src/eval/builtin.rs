@@ -1,5 +1,5 @@
 //! builtin、方法与 croon 的运行时绑定。参数形式读 lang0.subset，不复制声明。
-//! 参考：docs/Lang0/Subset.md（清单、异常的消息）；docs/Lang0/README.md（Interface、运行时对象、取）。
+//! 参考：docs/Subset.md（清单、异常的消息）；docs/README.md（Interface、运行时对象、取）。
 
 use super::*;
 use num_bigint::BigInt;

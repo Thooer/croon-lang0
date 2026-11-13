@@ -1,5 +1,5 @@
 //! repr、str 与字符串转数，照 CPython 3.12 冻结，不取决于宿主。
-//! 参考：docs/Lang0/Evaluator.md（文本）；docs/Lang0/Subset.md（形状之外的规则、异常的消息）。
+//! 参考：docs/Evaluator.md（文本）；docs/Subset.md（形状之外的规则、异常的消息）。
 use super::heap::Heap;
 
 use num_bigint::BigInt;
@@ -136,7 +136,7 @@ pub fn int_text(heap: &Heap, n: &BigInt) -> R<String> {
     Ok(s)
 }
 
-/// 引用值与含引用值的运行时对象转不成文本，见 docs/Lang0/Evaluator.md 的「文本」。
+/// 引用值与含引用值的运行时对象转不成文本，见 docs/Evaluator.md 的「文本」。
 pub fn carries_ref(heap: &Heap, v: &Value) -> bool {
     match v {
         Value::Ref(_) | Value::Inbox(_) | Value::Derived(_) => true,

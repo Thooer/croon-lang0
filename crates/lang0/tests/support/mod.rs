@@ -1,5 +1,5 @@
 //! 构造检查的最小源码与内容库。
-//! 参考：docs/Lang0/README.md（模块、Interface）。
+//! 参考：docs/README.md（模块、Interface）。
 
 use croon_eval::{host::Read, value::ValueId};
 use serde_json::{Value as Json, json};

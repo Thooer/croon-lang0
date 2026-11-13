@@ -1,5 +1,5 @@
 //! Schema 与 Port spec 的字面量读取：不执行调用或模块代码。
-//! 参考：docs/Lang0/README.md（Interface、Port 与交出）；docs/Kernel/Value.md（内容寻址）。
+//! 参考：docs/README.md（Interface、Port 与交出）；croon:docs/Kernel/Value.md「内容寻址」。
 
 use super::*;
 

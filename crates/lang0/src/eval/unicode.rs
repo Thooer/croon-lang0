@@ -1,5 +1,5 @@
 //! 由 crates/lang0/cpython/unicode_tables.py 从 CPython 3.12（Unicode 15.0）生成，不要手改。
-//! 参考：docs/Lang0/Evaluator.md（文本）。
+//! 参考：docs/Evaluator.md（文本）。
 
 /// `str.isprintable()` 为假的字符：repr 要转义。
 pub static NOT_PRINTABLE: &[(u32, u32)] = &[

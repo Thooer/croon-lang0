@@ -1,4 +1,4 @@
-"""在 CPython 上对照 docs/Lang0/Subset.md 的 lang0.messages 与 lang0.subset。
+"""在 CPython 上对照 docs/Subset.md 的 lang0.messages 与 lang0.subset。
 
 用法：python3 -B crates/lang0/cpython/messages.py；要 CPython 3.12。
 
@@ -6,7 +6,7 @@
   要等于按模板与给出的占位渲染出来的那一份。builtin 的绑定失败按 Subset.md 是列出的差异，
   所以 missing_args 这一组只拿用户函数对照，expected_count 拿 CPython 自己用这种措辞的 builtin。
 - 清单里的调用形式：能解析成 Python 的形参，参数名与 CPython 的一致；方法清单对 Python 封闭。
-  参考：docs/Lang0/Subset.md（清单、异常的消息）。
+  参考：docs/Subset.md（清单、异常的消息）。
 """
 import ast
 import inspect
@@ -19,7 +19,7 @@ import warnings
 warnings.simplefilter("ignore", SyntaxWarning)
 
 ROOT = pathlib.Path(__file__).resolve().parents[3]
-TEXT = (ROOT / "docs/Lang0/Subset.md").read_text()
+TEXT = (ROOT / "docs/Subset.md").read_text()
 
 
 def block(name):
