@@ -1,6 +1,14 @@
 """在 CPython 上跑 Delegate 的 S 与 W0，按脚本给结果，打印推出的 Interface、报出的 Atom 与结束值。
 
-用法：python3 -B run_delegate.py <生成模块目录>；kernel.py 由 `cargo run -p lang0 --example kernel_module` 生成。
+用法：python3 -B run_delegate.py <生成模块目录>
+
+这个脚本需要两个本仓库没有的输入，因为 Library 与生成模块都住在 croon-app：
+
+- `library/`：从 croon-app 的仓库根拷过来（s.py、w0.py 所在的那一层）。
+- `<生成模块目录>` 里的 kernel.py、model.py、directory.py：在 croon-app 的仓库根跑
+  `cargo run -p execution --example generate_library -- <目录>` 生成。
+
+拆分前这三个来源都在同一个仓库里，脚本直接从仓库根读；现在它们跨了两个仓库，所以这两步必须由调用方先做。Delegate 的端到端验收由 croon-app 的 Rust 测试负责，本脚本只用作 CPython 上的对照。
 """
 import importlib
 import json
