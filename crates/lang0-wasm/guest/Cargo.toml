@@ -1,0 +1,15 @@
+[workspace]
+
+[package]
+name = "lang0-wasm-guest"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+lang0 = { path = "../../lang0", default-features = false }
+croon-eval = { path = "../../../../croon/crates/eval" }
+serde_json = { version = "=1.0.154", default-features = false, features = ["std", "float_roundtrip"] }

@@ -1,0 +1,473 @@
+{
+  "key_missing": {
+    "class": "KeyError",
+    "args": [
+      "{key}"
+    ],
+    "note": "args 是那个键本身，所以 str(e) 是它的 repr；dict 的下标、pop 与 str.format 的名字字段都是它"
+  },
+  "index_out_of_range": {
+    "class": "IndexError",
+    "message": {
+      "list": "list index out of range",
+      "tuple": "tuple index out of range",
+      "str": "string index out of range",
+      "range": "range object index out of range"
+    }
+  },
+  "assign_out_of_range": {
+    "class": "IndexError",
+    "message": "list assignment index out of range"
+  },
+  "pop_empty": {
+    "class": "IndexError",
+    "message": "pop from empty list"
+  },
+  "pop_out_of_range": {
+    "class": "IndexError",
+    "message": "pop index out of range"
+  },
+  "index_size": {
+    "class": "IndexError",
+    "message": "cannot fit 'int' into an index-sized integer",
+    "note": "重复次数超出时类是 OverflowError，消息相同"
+  },
+  "ssize_t": {
+    "class": "OverflowError",
+    "message": "Python int too large to convert to C ssize_t"
+  },
+  "div_by_zero": {
+    "class": "ZeroDivisionError",
+    "message": {
+      "int": "division by zero",
+      "float": "float division by zero"
+    }
+  },
+  "floordiv_by_zero": {
+    "class": "ZeroDivisionError",
+    "message": {
+      "int": "integer division or modulo by zero",
+      "float": "float floor division by zero"
+    }
+  },
+  "mod_by_zero": {
+    "class": "ZeroDivisionError",
+    "message": {
+      "int": "integer modulo by zero",
+      "float": "float modulo"
+    }
+  },
+  "int_div_too_large": {
+    "class": "OverflowError",
+    "message": "integer division result too large for a float"
+  },
+  "int_to_float": {
+    "class": "OverflowError",
+    "message": "int too large to convert to float"
+  },
+  "unsupported_operand": {
+    "class": "TypeError",
+    "message": "unsupported operand type(s) for {op}: '{left}' and '{right}'"
+  },
+  "concat": {
+    "class": "TypeError",
+    "message": "can only concatenate {left} (not \"{right}\") to {left}"
+  },
+  "mul_non_int": {
+    "class": "TypeError",
+    "message": "can't multiply sequence by non-int of type '{type}'"
+  },
+  "unorderable": {
+    "class": "TypeError",
+    "message": "'{op}' not supported between instances of '{left}' and '{right}'"
+  },
+  "bad_abs": {
+    "class": "TypeError",
+    "message": "bad operand type for abs(): '{type}'"
+  },
+  "catch_non_exception": {
+    "class": "TypeError",
+    "message": "catching classes that do not inherit from BaseException is not allowed"
+  },
+  "descriptor_receiver": {
+    "class": "TypeError",
+    "message": "descriptor '{name}' for '{owner}' objects doesn't apply to a '{type}' object"
+  },
+  "float_nan_to_int": {
+    "class": "ValueError",
+    "message": "cannot convert float NaN to integer"
+  },
+  "star_value_not_iterable": {
+    "class": "TypeError",
+    "message": "Value after * must be an iterable, not {type}"
+  },
+  "croon_argument": {
+    "own": true,
+    "class": "TypeError",
+    "message": {
+      "receive": "croon.receive 的 ports 用 Inbox 或 Inbox 的 list",
+      "tool": "croon.tool 的参数用函数",
+      "exception": "croon.{name} 的参数用异常",
+      "attach": "附带用引用值；数据放进交出的 Value"
+    }
+  },
+  "declaration_only": {
+    "own": true,
+    "class": "TypeError",
+    "message": "{name} 用于类型声明；运行时用声明的类型对应的值"
+  },
+  "bad_unary": {
+    "class": "TypeError",
+    "message": "bad operand type for unary {op}: '{type}'"
+  },
+  "in_string": {
+    "class": "TypeError",
+    "message": "'in <string>' requires string as left operand, not {type}"
+  },
+  "in_not_iterable": {
+    "class": "TypeError",
+    "message": "argument of type '{type}' is not iterable"
+  },
+  "not_callable": {
+    "class": "TypeError",
+    "message": "'{type}' object is not callable"
+  },
+  "not_subscriptable": {
+    "class": "TypeError",
+    "message": "'{type}' object is not subscriptable"
+  },
+  "no_item_assignment": {
+    "class": "TypeError",
+    "message": "'{type}' object does not support item assignment"
+  },
+  "not_iterable": {
+    "class": "TypeError",
+    "message": "'{type}' object is not iterable"
+  },
+  "not_mapping": {
+    "class": "TypeError",
+    "message": "'{type}' object is not a mapping",
+    "note": "dict 字面量里的 **"
+  },
+  "not_integer": {
+    "class": "TypeError",
+    "message": "'{type}' object cannot be interpreted as an integer",
+    "note": "range 的参数、list.pop、enumerate 的 start 这类要整数的位置"
+  },
+  "bad_slice_index": {
+    "class": "TypeError",
+    "message": {
+      "list": "slice indices must be integers or have an __index__ method",
+      "str": "slice indices must be integers or None or have an __index__ method"
+    },
+    "note": "index 与 startswith 这类方法的 start、end；list 与 tuple 的 index 用 list"
+  },
+  "no_len": {
+    "class": "TypeError",
+    "message": "object of type '{type}' has no len()"
+  },
+  "unhashable": {
+    "class": "TypeError",
+    "message": "unhashable type: '{type}'"
+  },
+  "bad_index": {
+    "class": "TypeError",
+    "message": {
+      "list": "list indices must be integers or slices, not {type}",
+      "tuple": "tuple indices must be integers or slices, not {type}",
+      "str": "string indices must be integers, not '{type}'",
+      "range": "range indices must be integers or slices, not {type}"
+    }
+  },
+  "no_attribute": {
+    "class": "AttributeError",
+    "message": "'{type}' object has no attribute '{name}'"
+  },
+  "missing_args": {
+    "class": "TypeError",
+    "message": "{name}() missing {n} required positional argument{s}: {names}",
+    "note": "names 是 'a'、'a' and 'b'、'a', 'b', and 'c'；n 为 1 时 s 为空"
+  },
+  "missing_kwonly": {
+    "class": "TypeError",
+    "message": "{name}() missing {n} required keyword-only argument{s}: {names}"
+  },
+  "too_many_args": {
+    "class": "TypeError",
+    "message": "{name}() takes {n} positional argument{s} but {given} given",
+    "note": "有默认值时 n 写成 from {min} to {max}，s 照 max；given 是 1 was、2 were，调用里另有绑上的仅关键字参数时写成 2 positional arguments (and 1 keyword-only argument) were"
+  },
+  "unexpected_kwarg": {
+    "class": "TypeError",
+    "message": "{name}() got an unexpected keyword argument '{key}'"
+  },
+  "multiple_values": {
+    "class": "TypeError",
+    "message": "{name}() got multiple values for argument '{key}'"
+  },
+  "multiple_kw_values": {
+    "class": "TypeError",
+    "message": "{name}() got multiple values for keyword argument '{key}'",
+    "note": "两个 ** 给了同一个名字"
+  },
+  "positional_as_kw": {
+    "class": "TypeError",
+    "message": "{name}() got some positional-only arguments passed as keyword arguments: '{names}'",
+    "note": "names 用 ', ' 连起来，外面只有一对引号"
+  },
+  "expected_count": {
+    "class": "TypeError",
+    "message": "{name} expected at least {n} argument{s}, got {got}",
+    "note": "多于上限时 at least 换成 at most；name 后没有括号"
+  },
+  "keywords_not_str": {
+    "class": "TypeError",
+    "message": "keywords must be strings"
+  },
+  "star_star_not_mapping": {
+    "class": "TypeError",
+    "message": "{name}() argument after ** must be a mapping, not {type}"
+  },
+  "star_not_iterable": {
+    "class": "TypeError",
+    "message": "{name}() argument after * must be an iterable, not {type}"
+  },
+  "unpack_non_iterable": {
+    "class": "TypeError",
+    "message": "cannot unpack non-iterable {type} object"
+  },
+  "unpack_few": {
+    "class": "ValueError",
+    "message": "not enough values to unpack (expected {n}, got {got})",
+    "note": "目标里有星号时 expected at least {n}"
+  },
+  "unpack_many": {
+    "class": "ValueError",
+    "message": "too many values to unpack (expected {n})"
+  },
+  "unbound_local": {
+    "class": "UnboundLocalError",
+    "message": "cannot access local variable '{name}' where it is not associated with a value"
+  },
+  "unbound_free": {
+    "class": "NameError",
+    "message": "cannot access free variable '{name}' where it is not associated with a value in enclosing scope"
+  },
+  "undefined_name": {
+    "class": "NameError",
+    "message": "name '{name}' is not defined"
+  },
+  "raise_non_exception": {
+    "class": "TypeError",
+    "message": "exceptions must derive from BaseException"
+  },
+  "reraise_none": {
+    "class": "RuntimeError",
+    "message": "No active exception to reraise"
+  },
+  "dict_changed": {
+    "class": "RuntimeError",
+    "message": {
+      "size": "dictionary changed size during iteration",
+      "keys": "dictionary keys changed during iteration"
+    }
+  },
+  "int_literal": {
+    "class": "ValueError",
+    "message": "invalid literal for int() with base 10: {repr}"
+  },
+  "float_literal": {
+    "class": "ValueError",
+    "message": "could not convert string to float: {repr}"
+  },
+  "int_argument": {
+    "class": "TypeError",
+    "message": "int() argument must be a string, a bytes-like object or a real number, not '{type}'"
+  },
+  "float_argument": {
+    "class": "TypeError",
+    "message": "float() argument must be a string or a real number, not '{type}'"
+  },
+  "float_to_int": {
+    "class": "OverflowError",
+    "message": "cannot convert float infinity to integer"
+  },
+  "empty_min_max": {
+    "class": "ValueError",
+    "message": "{name}() iterable argument is empty"
+  },
+  "sum_strings": {
+    "class": "TypeError",
+    "message": "sum() can't sum strings [use ''.join(seq) instead]"
+  },
+  "range_step_zero": {
+    "class": "ValueError",
+    "message": "range() arg 3 must not be zero"
+  },
+  "isinstance_arg": {
+    "class": "TypeError",
+    "message": "isinstance() arg 2 must be a type, a tuple of types, or a union"
+  },
+  "zip_strict": {
+    "class": "ValueError",
+    "message": "zip() argument {i} is {longer} than argument{s} {range}",
+    "note": "longer 是 longer 或 shorter；前面只有一个参数时 range 是 1、s 为空，否则是 1-{i-1}"
+  },
+  "dict_sequence": {
+    "class": "TypeError",
+    "message": "cannot convert dictionary update sequence element #{i} to a sequence"
+  },
+  "dict_sequence_length": {
+    "class": "ValueError",
+    "message": "dictionary update sequence element #{i} has length {n}; 2 is required"
+  },
+  "index_not_found": {
+    "class": "ValueError",
+    "message": {
+      "list": "{repr} is not in list",
+      "tuple": "tuple.index(x): x not in tuple",
+      "str": "substring not found"
+    }
+  },
+  "join_item": {
+    "class": "TypeError",
+    "message": "sequence item {i}: expected str instance, {type} found"
+  },
+  "join_not_iterable": {
+    "class": "TypeError",
+    "message": "can only join an iterable"
+  },
+  "empty_separator": {
+    "class": "ValueError",
+    "message": "empty separator"
+  },
+  "str_argument": {
+    "class": "TypeError",
+    "message": {
+      "split": "must be str or None, not {type}",
+      "strip": "strip arg must be None or str",
+      "startswith": "startswith first arg must be str or a tuple of str, not {type}",
+      "endswith": "endswith first arg must be str or a tuple of str, not {type}",
+      "replace": "replace() argument {i} must be str, not {type}",
+      "index": "must be str, not {type}"
+    }
+  },
+  "format_index": {
+    "class": "IndexError",
+    "message": "Replacement index {i} out of range for positional args tuple"
+  },
+  "format_brace": {
+    "class": "ValueError",
+    "message": {
+      "open": "Single '{{' encountered in format string",
+      "close": "Single '}}' encountered in format string",
+      "end": "expected '}}' before end of string"
+    }
+  },
+  "format_field": {
+    "own": true,
+    "class": "ValueError",
+    "message": "str.format 首版只收 {{}} 与 {{名字}}，不收 {{{field}}}"
+  },
+  "identity_of_value": {
+    "own": true,
+    "class": "TypeError",
+    "message": "is 只用于 None、True、False 与 list、dict；比较 {left} 与 {right} 的值用 =="
+  },
+  "percent_format": {
+    "own": true,
+    "class": "TypeError",
+    "message": "用 f-string 或 str.format 代替 %"
+  },
+  "int_digits": {
+    "own": true,
+    "class": "ValueError",
+    "message": {
+      "to_str": "Exceeds the limit (4300 digits) for integer string conversion",
+      "from_str": "Exceeds the limit (4300 digits) for integer string conversion: value has {n} digits"
+    },
+    "note": "CPython 后面还有一句 sys.set_int_max_str_digits() 的建议，Lang0 没有 sys，所以去掉"
+  },
+  "limit": {
+    "own": true,
+    "class": "croon.Limit",
+    "kind": "limit",
+    "message": {
+      "steps": "超出步数上限",
+      "depth": "超出深度上限",
+      "live": "超出活数据上限"
+    }
+  },
+  "ref_text": {
+    "own": true,
+    "class": "croon.Failure",
+    "kind": "type",
+    "message": "引用值不能转成文本；给模型看的用 Definition 建的名字代替"
+  },
+  "content_read": {
+    "own": true,
+    "class": "croon.Failure",
+    "kind": "use",
+    "message": "croon.{name}: 读不到 {id} 或内容类型不符"
+  },
+  "delivery_argument": {
+    "own": true,
+    "class": "TypeError",
+    "message": "croon.{name}: {reason}"
+  },
+  "read_at_top": {
+    "own": true,
+    "class": "RuntimeError",
+    "message": "在 main 里读 croon.{name}()"
+  },
+  "schema_violation": {
+    "own": true,
+    "class": "croon.Failure",
+    "kind": "type",
+    "message": "{where}{pointer} 违反 {rule}",
+    "note": "where 是 input 或 output；pointer 是 JSON Pointer，根是空串，所以根上的违反写成 input 违反 type；rule 是违反的 value.schema 关键字。pointer 与 rule 取自校验器报出的第一处违反；不用校验器的说明文字，它不随 lang0@1 冻结"
+  },
+  "not_value": {
+    "own": true,
+    "class": "croon.Failure",
+    "kind": "type",
+    "message": "{where}{pointer} 不是 Value：{reason}",
+    "note": "where 是 value（交出的值）或 output（main 与工具的返回值）；pointer 是深度优先最先碰到的那一处",
+    "reason": {
+      "tuple": "用 list 代替 tuple",
+      "引用值": "引用值只能经附带交出",
+      "回执": "用 .value 取出数据",
+      "到达": "用 .value 取出数据",
+      "派生出的那一份": "用 .handle 取出数据",
+      "number": "数要有限，绝对值不超过 9007199254740991",
+      "key": "对象的键要是字符串",
+      "limits": "超出 value.limits 的 {limit}",
+      "其余": "{type} 不进 Value"
+    }
+  },
+  "type_names": {
+    "None": "NoneType",
+    "bool": "bool",
+    "int": "int",
+    "float": "float",
+    "str": "str",
+    "list": "list",
+    "dict": "dict",
+    "tuple": "tuple",
+    "range": "range",
+    "dict 的 keys、values、items": "dict_keys、dict_values、dict_items",
+    "enumerate": "enumerate",
+    "zip": "zip",
+    "函数": "function",
+    "builtin 与方法": "builtin_function_or_method",
+    "类": "type",
+    "模块": "module",
+    "异常": "它的类名",
+    "引用值": "Ref",
+    "回执": "Receipt",
+    "到达": "Arrival",
+    "派生出的那一份": "Derived",
+    "工具": "Tool",
+    "Port spec": "Port"
+  }
+}
