@@ -80,10 +80,10 @@ Interface 就是 `main` 带类型的签名：
 
 引用值只从三处进来：`main` 的参数、交出的结果、到达。没有环境里的引用值，也没有环境里的 Principal：指向 Principal 的 Reference 同样作为 `main` 的一个 Port 参数接上。函数要用的引用值由调用方给，或捕获外层函数的局部变量，所以一个函数够得到什么，在源码里看得见：它的签名，加上外层函数的局部变量。判据是：作者叫得出名字、又带权利的，显式地传；叫不出名字的，如 Atom 的键，留在求值器里。
 
-叫得出名字、不带权利的数据，看它是实例化的一方给的，还是属于这个 Cognizer：
+叫得出名字、不带权利的数据，看它是实例化的一方给的，还是属于这个主体：
 
 - **实例化的一方给的**：Signature 的 in 与接线，是 `main` 的参数。
-- **这个 Cognizer 的**：`croon.definition()`、`croon.seat()`、`croon.roster()` 取自诞生，只在 main 里读。业务内容通过 `croon.read_json(id)`、`croon.read_text(id)` 读取，读取资格取自诞生与程序已经消费的 Atom 结果；知道 ID 不授予资格。文件快照是 Signature 的普通输入，由函数参数或闭包中的变量持有。
+- **这个主体的**：`croon.definition()`、`croon.seat()`、`croon.roster()` 取自诞生，只在 main 里读。业务内容通过 `croon.read_json(id)`、`croon.read_text(id)` 读取，读取资格取自诞生与程序已经消费的 Atom 结果；知道 ID 不授予资格。文件快照是 Signature 的普通输入，由函数参数或闭包中的变量持有。
 
 推导的规则随 `lang0@1` 冻结：构造时推出的 Interface 与 Definition 里写的按规范文本比，不等就构造失败；tool 的说明进交给 llm 的 Value，重放时要逐字相同。
 
@@ -193,7 +193,7 @@ a = receive(inbox, sender = s)  # 只取某个 Instance 交来的
 
 terminated 是 Kernel 造成的结束，包含给在途交出写下的收尾结果，不送回 Lang0，所以上表不把它映射成可接住的异常。
 
-limit 不是 Exception：ReAct 这类代码用 `except Exception` 把工具的失败交还模型，limit 不该被它接住；接住了也空转不了，计数到下一个 Atom 才清零。kind 由异常对象的类定，裸 `raise` 重抛，kind 不变。失败默认向外传播，没接住的，Cognizer 以失败结束，结束状态的 error 就是 kind、`str(e)` 与 data。
+limit 不是 Exception：ReAct 这类代码用 `except Exception` 把工具的失败交还模型，limit 不该被它接住；接住了也空转不了，计数到下一个 Atom 才清零。kind 由异常对象的类定，裸 `raise` 重抛，kind 不变。失败默认向外传播，没接住的，主体以失败结束，结束状态的 error 就是 kind、`str(e)` 与 data。
 
 ## 待定
 
