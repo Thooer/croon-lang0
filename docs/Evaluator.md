@@ -25,7 +25,7 @@ Lang0 的求值器：一个程序怎样运行、每一步花多少、错在哪�
 约束：
 
 - **失败默认向外传播**，直到被接住；没有接住，Cognizer 以失败结束。不返回 Result：没检查的 Result 会当作普通数据流下去，校验拦不住。
-- **重试与补偿在 Library**：重试就是循环里 try，每次尝试是新的 Atom，有自己的键。
+- **重试与补偿在 Library**：见 croon-app:docs/Library/README.md「原则」；重试就是循环里 try，每次尝试是新的 Atom，有自己的键。
 - **类型在边界上于运行时检查**：实例化的输入与结果按 Signature 查，工具的参数与返回值按 `croon.tool` 推出的 Schema 查，交出按派生链上每一节查，都由 value.schema 的校验器查。LLM 产出的数据结构运行时才确定，静态推断收益小。
 - **Definition 的结构写 Definition 时就确定**：没有按数据调用 Definition 的写法。运行时的决定，包括 LLM 选哪个工具、跑刚造出来的东西，都是数据，交给某个 Port。灵活性的上限由 Definition 的声明与接线决定，构造与实例化时看得见；上限之内实际拿到了什么，记在 Journal 里。
 
@@ -62,7 +62,7 @@ Checkpoint 连同每个分支的计数器一起存下：计数器是 Language �
 
 ## 资源
 
-无论 Definition 怎样写，求值都以 done 或确定的失败结束，见 ../Kernel/Definition/Cognition.md 的求值契约。Lang0 的度量都按 Surface 的运算定，与降法、引擎、一轮在哪里运行无关：
+无论 Definition 怎样写，求值都以 done 或确定的失败结束，见 croon:docs/Kernel/Definition/Cognition.md「求值契约」。Lang0 的度量都按 Surface 的运算定，与降法、引擎、一轮在哪里运行无关：
 
 | 资源 | 度量 | 超出 |
 |---|---|---|
@@ -79,7 +79,7 @@ Checkpoint 连同每个分支的计数器一起存下：计数器是 Language �
 - 超出上限是普通的失败，能接住。接住后也空转不了：计数到下一个 Atom 才清零，在那之前每一步都再失败。
 - 构造时顶层的求值受同样的上限。
 
-token、时间、花费的上限不在这里，在 Library：Language 不读时间，两个 Atom 之间也没有别的东西花钱。
+token、时间、花费的上限不在这里，在 croon-app:docs/Library/README.md「原则」：Language 不读时间，两个 Atom 之间也没有别的东西花钱。
 
 ## 文本
 
@@ -87,7 +87,7 @@ repr、str 与 f-string 的文本会流进交出的值，如 ReAct 交还模型�
 
 - None、True、False 照字面；int 是十进制；float 是能还原同一个 double 的最短十进制，指数小于 -4 或不小于 16 时写成 `1e+16`、`1e-05` 的形式，否则是定点、至少带一位小数，如 `1.0`、`1000000000000000.0`；`-0.0` 照写；非有限的是 `inf`、`-inf`、`nan`，它们只在求值器里，进不了 Value。这几样的 str 与 repr 相同。
 - 字符串的 repr：含单引号而不含双引号时用双引号，否则用单引号；转义 `\\`、所用的引号、`\n`、`\r`、`\t`，其余不可打印的字符按码位写成 `\xhh`、`\uhhhh` 或 `\Uhhhhhhhh`。不可打印指 Unicode 15.0 里类别为 Cc、Cf、Cs、Co、Cn、Zl、Zp 的字符与空格以外的 Zs，与 CPython 3.12 相同，不随宿主的 Unicode 表变。`split`、`strip` 认的空白同样按 Unicode 15.0，是 CPython 3.12 的 `str.isspace()` 为真的字符。
-- list、dict、tuple 的 repr：`[a, b]`、`{k: v}`（按插入顺序）、`(a,)`、`(a, b)`、`()`，元素用 repr；它们的 str 与 repr 相同。引用值与含引用值的运行时对象，repr 与 str 都失败，见 ../Kernel/Language.md 的规则 1。
+- list、dict、tuple 的 repr：`[a, b]`、`{k: v}`（按插入顺序）、`(a,)`、`(a, b)`、`()`，元素用 repr；它们的 str 与 repr 相同。引用值与含引用值的运行时对象，repr 与 str 都失败，见 croon:docs/Kernel/Language.md「一套名字、两种值」的规则 1。
 - 其余的 repr 照 CPython 3.12，去掉地址：`range(0, 3)`、`range(1, 5, 2)`；`dict_keys([1])`、`dict_values([2])`、`dict_items([(1, 2)])`；函数 `<function outer.<locals>.inner>`，用 qualname；builtin `<built-in function len>`，绑到值上的方法 `<built-in method append of list object>`，类上取的方法 `<method 'pop' of 'dict' objects>`；类 `<class 'int'>`、`<class 'croon.Failure'>`；异常 `ValueError('x')`、`ValueError()`、`ValueError('a', 1)`，即类名加 args 的 repr，只有一个时没有逗号；模块 `<module 'typing'>`；enumerate、zip 与别的对象 `<X object>`。
 - 字符串转数照 CPython 3.12：去掉首尾的空白（str.isspace() 为真的字符，U+001C 到 U+001F 除外），可以有符号与数字之间的下划线，数字是 Unicode 15.0 里的十进制数字；float 还收不分大小写的 `inf`、`infinity`、`nan`。
 - 异常的 str：没有 args 是空串；一个是它的 str，KeyError 是它的 repr；几个是 args 这个 tuple 的 repr。Lang0 自己抛出的异常的 args 见 Subset.md 的「异常的消息」。
@@ -107,6 +107,6 @@ repr、str 与 f-string 的文本会流进交出的值，如 ReAct 交还模型�
 ## 待定
 
 - 并发的键按现在的规则还没有验证：一个有嵌套并行、循环与函数调用的程序，跑遍它的全部完成顺序，发出的 Atom 应当相同。随收 concurrent.futures 一起做。没有场景：首版不收 concurrent.futures。
-- B、深度上限、L、W 与活数据量的下限的数值，实测后定；Library 的 `max_turns` 的默认值随它。场景：Delegate。
+- B、深度上限、L、W 与活数据量的下限的数值，实测后定；croon-app:docs/Library/README.md「原则」中的 `max_turns` 默认值随它。场景：Delegate。
 
 参考：Subset.md（异常的消息）；README.md（为什么是 Python 的写法、拦什么、各构造、模块、Interface、值与类型、Port 与交出）；Engineering.md（选择、降、隔离）。

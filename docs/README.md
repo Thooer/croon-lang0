@@ -1,6 +1,6 @@
 # Lang0
 
-Lang0 是第一种 Language，ID 为 `lang0@1`。body.source 存的是 Surface：模型读写的 Python 的一个子集，写法照 Python，语义以本文为准。Surface 降到求值契约：交出与取报出 Atom，键与资源由 Lang0 自己给出。它满足 ../Kernel/Definition/Cognition.md 的求值契约，守 ../Kernel/Language.md 的规则。
+Lang0 是第一种 Language，ID 为 `lang0@1`。body.source 存的是 Surface：模型读写的 Python 的一个子集，写法照 Python，语义以本文为准。Surface 降到求值契约：交出与取报出 Atom，键与资源由 Lang0 自己给出。它满足 croon:docs/Kernel/Definition/Cognition.md「求值契约」的求值契约，守 croon:docs/Kernel/Language.md「守什么」的规则。
 
 本文件夹里，本文讲写法；首版实际收的构造、名字与异常的消息见 Subset.md；求值器的语义与保证见 Evaluator.md，它的实现见 Engineering.md。
 ## 为什么是 Python 的写法
@@ -46,7 +46,7 @@ Lang0 是第一种 Language，ID 为 `lang0@1`。body.source 存的是 Surface�
 
 ## 模块
 
-body 是只含 source 与可选 modules 的对象。source 是 `main` 所在模块的源码字符串，modules 是目录 Bundle ID；不使用顶层 code 字段。模块目录采用 Directory 的 Tree 形状，作为 Bundle 交付，文件和子目录都指向 Bundle。import 照 Python 的目录语义：目录顶层是起点，`a.b` 找 `a/b.py` 或 `a/b/`，包可以没有 `__init__.py`，包内可以相对 import。模块目录顶层不能占用 `croon` 或白名单模块名，路径经过 link 时拒绝。
+body 是只含 source 与可选 modules 的对象。source 是 `main` 所在模块的源码字符串，modules 是目录 Bundle ID；不使用顶层 code 字段。模块目录采用 croon:docs/Tree.md「Tree」的形状，作为固定的目录 Bundle；文件和子目录都指向 Bundle。import 照 Python 的目录语义：目录顶层是起点，`a.b` 找 `a/b.py` 或 `a/b/`，包可以没有 `__init__.py`，包内可以相对 import。模块目录顶层不能占用 `croon` 或白名单模块名，路径经过 link 时拒绝。目录的 Tree、导入与物化归 croon-app:docs/Directory/README.md「Tree」。
 
 ```json lang0.body
 {
@@ -62,7 +62,7 @@ body 是只含 source 与可选 modules 的对象。source 是 `main` 所在模�
 
 构造检查和 open 装载都只读 Definition Bundle 的固定闭包，不借构造者或 Instance 的额外取得范围。模块顶层在 import 时求值一次，受同样的资源上限。缺少代码依赖时构造失败；补依赖得到另一份完整 Definition 身份。
 
-Library 的函数通过目录 Bundle 共享：Definition 的 modules 包含 library 子目录，Definition Bundle 显式依赖它。生成模块 library.kernel 只提供 KernelPort 的 Port spec 与 Outcome；library.model 的 Generate 来自 model.generate，library.directory 的 Exec 来自 directory.exec。生成源码与库文件一同固定进目录 Bundle，重放不会随宿主构建改变类型。
+Library 的预置函数与组合见 croon-app:docs/Library/README.md「地图」；Lang0 只规定模块目录与 import 的语义。
 
 `croon` 是 Lang0 自己的模块；名字都显式 import，清单见 Subset.md。最小 Definition 只需 body.source，不需要空目录。
 
@@ -74,7 +74,7 @@ Interface 就是 `main` 带类型的签名：
 - Port 类型的参数是 Required port，`Inbox` 类型的参数是 Provided port，名字都是参数名。
 - 描述取自 `main` 的 docstring。
 
-实例化时，in 的各字段、接上的 Reference 与自己的 Provided port 按参数名交给 `main`：值放在 input 里，接线放在附带里。`main` 一生只在实例化时求值一次，不被别的 body 调用；复用代码靠 import 函数，见 ../Kernel/Definition/README.md 的「Cognition 与 Charter」。诞生里的其余部分不是参数，见下面的判据。
+实例化时，in 的各字段、接上的 Reference 与自己的 Provided port 按参数名交给 `main`：值放在 input 里，接线放在附带里。`main` 一生只在实例化时求值一次，不被别的 body 调用；复用代码靠 import 函数，见 croon:docs/Kernel/Definition/README.md「Cognition 与 Charter」。诞生里的其余部分不是参数，见下面的判据。
 
 同一套推导适用于任何函数：没绑定的参数与返回类型给出它的 Schema，函数与各参数的描述取自 docstring 与其中的 `Args:`，规则见下面的「推导」。`croon.tool(f)` 用它把函数变成交给模型的工具：一个工具对象，`.name` 是函数名，`.spec` 是交给 llm 的说明；调用它时，先按推出的 Schema 查交来的 input，再调 f，再查返回值，都由 Kernel 的校验器查。所以模型写错的参数、工具误返回的不是 Value 的东西，都在这次工具调用上失败，不流到下一次交出。正文自己拼不出这些：函数名与 docstring 要经 dunder 属性，被拦下了。没绑定的参数里还有 Port、Inbox 或 `Callable` 类型的，推不出来，报错说在外层函数里捕获它，或用 partial 绑上。`Callable` 是合法的标注，不映射到 value.schema；推 Schema 只发生在 `main` 的签名与 `tool` 上，所以普通函数的参数可以用它。
 
@@ -120,14 +120,14 @@ Lang0 的类型是 value.schema 的另一种写法，不另设类型系统，语
 - integer 是值为整数的 number，所以 1.0 满足 `int`；`float` 接受整数，因为 number 包含 integer，与 PEP 484 一致。
 - TypedDict 默认封闭：Python 的默认不封闭，这里选严的一边，多出的键报错，不会悄悄放过。
 - 缺键与 null 分开：`NotRequired[T]` 是可以没有这个键，`T | None` 是可以为 null。JSON 区分这两种，TypedDict 也区分。
-- 进来的数，规范文本里没有小数点与指数的是 int，其余是 float：交出的 `2.0` 回来是 `2`，`-0.0` 回来是 `0`。Value 不分 1 与 1.0，见 ../Kernel/Value.md 的「内容寻址」；这是与 Python 的 json 不同的一处。
+- 进来的数，规范文本里没有小数点与指数的是 int，其余是 float：交出的 `2.0` 回来是 `2`，`-0.0` 回来是 `0`。Value 不分 1 与 1.0，见 croon:docs/Kernel/Value.md「内容寻址」；这是与 Python 的 json 不同的一处。
 - int 在求值器里照 Python 无界，按字长计步；只在进出 Value 的边界上（交出、done、Signature 与 `croon.tool` 的检查）超出 `number_max` 以 type 失败，不是有限数的 float 同样。不把 int 限在这个范围里：那样多一处与 Python 的差异，好处只是错报在算出它的那一步。
 - 表外的标注推不出 Schema：dataclass、enum 的类之类写在 `main` 或 `tool` 的签名上，构造时报错，说用 TypedDict 或 Literal；函数体内照用，它们的实例不是 Value，交出时以 type 失败。
 
 
 ## Port 与交出
 
-**引用值**是一种自定义的值类型，不透明，守 ../Kernel/Language.md「一套名字、两种值」的三条规则：没有与字符串互转的方法，repr 与编码成 JSON 时碰到就失败，进不了交出的 Value。交出统一使用 `croon.send`；引用值本身不可调用。
+**引用值**是一种自定义的值类型，不透明，守 croon:docs/Kernel/Language.md「一套名字、两种值」的三条规则：没有与字符串互转的方法，repr 与编码成 JSON 时碰到就失败，进不了交出的 Value。交出统一使用 `croon.send`；引用值本身不可调用。
 
 Port spec 本身是一个值，Required 与 Provided 只是角色：
 
@@ -187,7 +187,7 @@ a = receive(inbox, sender = s)  # 只取某个 Instance 交来的
 
 | kind | 异常 | 何时 |
 |---|---|---|
-| use、denied、type | `croon.Failure`，Exception 的子类 | 与 ../Kernel/Definition/Cognition.md 的「失败」相同；data 固定为 `{error: 原业务 data, dependencies: 实际交付根}`，保留失败产物 |
+| use、denied、type | `croon.Failure`，Exception 的子类 | 与 croon:docs/Kernel/Definition/Cognition.md「失败」相同；data 固定为 `{error: 原业务 data, dependencies: 实际交付根}`，保留失败产物 |
 | limit | `croon.Limit`，只是 BaseException 的子类 | 超出 Evaluator.md 的「资源」里的上限 |
 | 类名 | Python 的异常 | 运行时错误与主动 raise 的；data 是 null；Lang0 自己抛出的消息见 Subset.md |
 
@@ -198,7 +198,21 @@ limit 不是 Exception：ReAct 这类代码用 `except Exception` 把工具的�
 ## 待定
 
 - 模块的白名单：首版只开 typing，见 Subset.md。候选还有 dataclasses、enum、functools、json、math、itertools、collections；每开一个都随 `lang0@1` 冻结，关掉会破坏用到它的 Definition，所以从少开起。concurrent.futures 首版不收：并发还没有场景验收，见 Evaluator.md 的待定，带着它冻结，以后再加入显式 Bundle 输入与产物。
-- Library 的代码要读自己旁边的文件，如写成模块目录 里文件的系统提示，`__file__` 是 dunder，被拦下了；候选是开 `importlib.resources`，从模块目录 读，它只取决于诞生里的 Definition，是纯的。`files()` 不给参数时用调用方的模块，据记忆是 3.12 起，待核验。`definition()` 读到的是这个 Instance 的 Definition，import 进来的库函数读到的也是它，名字要说清这一点。没有场景：首个场景的提示写在源码里。
+- Library 的代码与组合见 croon-app:docs/Library/README.md「地图」；Lang0 只规定它所运行的模块目录与 import 语义。
 - use、denied、type 要不要再继承 Python 的异常类，如 type 同时继承 TypeError，让具体的 except 也接得住；加了会改变哪些 except 接得住，所以在 `lang0@1` 发布前定。没有场景。
+
+## 名词表
+
+一个概念一行，按 Lang0 的写法与求值顺序排。表中沿用 Croon 的名词定义；本仓库只补 Lang0 的用法。
+
+| English | 中文 | 正文 | 用法 |
+|---|---|---|---|
+| Ref | 引用值 | 中 | Language 里指向一个 Reference 的值；Ref 与 Reference 太近，所以用中文 |
+| Lang0 | 第一种语言 | 英 | 占位名 |
+| Surface | 表层 | 英 | 模型读写的 Python 写法 |
+| Evaluator | 求值器 | 中 | |
+| Lowering | 降 | 中 | 从 Surface 降到求值契约 |
+| Checkpoint | 检查点 | 英 | 从这里能接着走的 Language 状态 |
+| branch / history branch | 分支 / 历史分支 | 中 | 不带限定的分支只指 Lang0 并发的分支 |
 
 参考：Subset.md（清单、拦下时说什么、异常的消息）；Evaluator.md（引擎、求值、并发、键、资源、文本、构造时检查、待定）；Engineering.md（选择、降、隔离）。

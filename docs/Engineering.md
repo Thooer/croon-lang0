@@ -1,6 +1,6 @@
 # Lang0 的实现
 
-Lang0 的求值器、降与隔离。写法在 README.md，语义在 Evaluator.md；Kernel 一侧的 Language 插口见 Kernel 的 Language 文档的「实现」。这里的一切都不随 `lang0@1` 冻结：README.md「引擎」里冻结的子集与语义不变，就可以换。
+Lang0 的求值器、降与隔离。写法在 README.md，语义在 Evaluator.md；Kernel 一侧的 Language 插口见 croon:docs/Kernel/Language.md「实现」。这里的一切都不随 `lang0@1` 冻结：README.md「引擎」里冻结的子集与语义不变，就可以换。
 
 ## 选择
 
@@ -31,7 +31,7 @@ Lang0 的求值器、降与隔离。写法在 README.md，语义在 Evaluator.md
 
 ## 隔离
 
-求值器写错时，body 可能绕过语言层的限制。Kernel 的保证不依赖它，见 ../Kernel/Definition/Cognition.md 的求值契约。隔离要满足三条：
+求值器写错时，body 可能绕过语言层的限制。Kernel 的保证不依赖它，见 croon:docs/Kernel/Definition/Cognition.md「求值契约」。隔离要满足三条：
 
 1. 每个 Instance 一个隔离单元。共用的话，绕过限制的 body 读得到别人的内存。
 2. 单元里没有 I/O、时钟与随机数，也碰不到内容库：Value 只经 Kernel 按「能读的 ID」拿到，否则存储就是后门。
@@ -69,7 +69,7 @@ Lang0 的求值器、降与隔离。写法在 README.md，语义在 Evaluator.md
 
 check 的正常拒绝是 ok:false；open 的成功是仅有 ok:true；resume 成功的 value 是契约输出；error 或与操作不符的响应是宿主故障。模块可共享编译结果，单元与读取资格不共享；故障单元丢弃，修复后显式重开。
 
-原生求值器继续供差分验证使用。同一个程序在原生与 WASM 路线上，Atom、结果与 Journal 必须相同；语言层的计量、失败文本与 Library 生成源码保持原样。隔离路线的早期验证见 0acf027；本次接入不引入内容寻址 Language、Checkpoint 或新的 fuel 语义。
+原生求值器继续供差分验证使用。同一个程序在原生与 WASM 路线上，Atom、结果与 Journal 必须相同；语言层的计量、失败文本与 croon-app:docs/Library/README.md「地图」所述生成源码保持原样。隔离路线的早期验证见 0acf027；本次接入不引入内容寻址 Language、Checkpoint 或新的 fuel 语义。
 
 ## 堆
 
@@ -80,6 +80,6 @@ check 的正常拒绝是 ok:false；open 的成功是仅有 ok:true；resume 成
 
 ## 待定
 
-- 在 receive 上等待的 Instance 一直留在内存里，还是被丢掉、有到达时再重放；Checkpoint 能缩短这次重放，Kernel 怎样记下、交还它见 ../Kernel/Journal.md 的待定。并发的分支的参数按大小深拷贝，成本没有测；大的东西是 Tree，走 ID。场景：W0 持续对话。
+- 在 receive 上等待的 Instance 一直留在内存里，还是被丢掉、有到达时再重放；Checkpoint 能缩短这次重放，Kernel 怎样记下、交还它见 croon:docs/Kernel/Journal.md「待定」。并发的分支的参数按大小深拷贝，成本没有测；大的东西是 Tree，走 ID。场景：W0 持续对话。
 
 参考：README.md（拦什么、失败）；Evaluator.md（引擎、并发、键、资源）。
