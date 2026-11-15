@@ -843,3 +843,13 @@ def main(p:P) -> Any:
     );
     assert!(v.finished.is_none());
 }
+
+#[test]
+fn definition_reads_the_whole_birth_definition() {
+    let source = "from typing import Any\nfrom croon import definition\ndef main() -> Any:\n    d = definition()\n    return [d['language'], 'def main' in d['body']['source']]";
+    let mut v = vm(source, json!({}));
+    assert_eq!(
+        v.resume(&BTreeMap::new(), &Empty).unwrap()["done"]["value"],
+        json!(["lang0@1", true])
+    );
+}
