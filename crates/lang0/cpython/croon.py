@@ -37,9 +37,10 @@ def data(e):
 class Driver:
     """一个 Instance 的会话：按键给结果，记下报出的 Atom。"""
 
-    def __init__(self, results, contents=None):
+    def __init__(self, results, contents=None, birth=None):
         self.results, self.contents, self.n, self.atoms = results, contents or {}, 0, []
         self.consumed_keys = []
+        self.birth = birth
 
     def atom(self, body):
         key = str(self.n)
@@ -76,6 +77,24 @@ class Delivery:
 
 def deliver(value, dependencies):
     return Delivery(value, dependencies)
+
+
+def _birth(name):
+    if DRIVER.birth is None:
+        raise Failure("use", f"croon.{name}: 只在 main 里读")
+    return copy.deepcopy(DRIVER.birth[name])
+
+
+def definition():
+    return _birth("definition")
+
+
+def seat():
+    return _birth("seat")
+
+
+def roster():
+    return _birth("roster")
 
 
 def read_json(id):
