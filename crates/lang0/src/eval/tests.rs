@@ -853,3 +853,35 @@ fn definition_reads_the_whole_birth_definition() {
         json!(["lang0@1", true])
     );
 }
+
+#[test]
+fn a_dict_holds_reference_values_and_forwards_them_as_attach() {
+    // run_agent 要按目标的 Interface 决定接不接某个 Port：attach 在局部按名字拼起来，值仍是引用值本身。
+    let source = "from typing import Any
+from croon import Port, send
+P = Port({'description':'p','in':{},'attach':{'additionalProperties':False}})
+Q = Port({'description':'q','in':{},'attach':{'additionalProperties':False}})
+A = Port({'description':'a','in':{},'attach':{'additionalProperties':True}})
+def main(p: P, q: Q, a: A) -> Any:
+    ports = {}
+    want = ['p', 'zzz']
+    if 'p' in want:
+        ports['p'] = p
+    if 'zzz' in want:
+        ports['zzz'] = q
+    send(a, None, attach=ports)
+    return list(ports)";
+    let results = BTreeMap::from([(
+        "0".into(),
+        json!({"outcome":{"ok":true,"value":null,"dependencies":[]},"attach":{},"derived":{},"accepted":true}),
+    )]);
+    let mut v = vm(source, json!({}));
+    let pending = v.run(&Empty).unwrap();
+    assert_eq!(
+        pending["atoms"][0]["send"]["attach"],
+        json!({"p":{"port":"p"},"zzz":{"port":"q"}}),
+        "{pending}"
+    );
+    let done = v.resume(&results, &Empty).unwrap();
+    assert_eq!(done["done"]["value"], json!(["p", "zzz"]), "{done}");
+}
