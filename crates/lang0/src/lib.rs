@@ -20,6 +20,14 @@ use std::collections::BTreeMap;
 /// `lang0@1` 的宿主插口。
 pub struct Lang0;
 
+/// 从 Definition 的 body 推出 Interface：与 `check` 走同一条装载与子集检查，只是不与写明的 interface 比较。
+/// 宿主拼 Definition 时用它；构造时仍由 `check` 核对两者按规范文本相等。
+pub fn interface(definition: &Json, read: &dyn Read) -> Result<Json, CheckError> {
+    let program = modules::load(definition, read)?;
+    subset::check(&program)?;
+    Ok(infer::interface(&program)?)
+}
+
 impl Language for Lang0 {
     fn id(&self) -> &str {
         "lang0@1"
