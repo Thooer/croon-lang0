@@ -3,9 +3,13 @@
 
 pub use croon_eval::blocks::{Block, json_in};
 
-pub static BLOCKS: &[Block] = &[
-    Block { name: "lang0.wasm", lang: "json", text: include_str!("../schema/lang0.wasm.json"), file: "crates/lang0-wasm/schema/lang0.wasm.json", line: 0 },
-];
+pub static BLOCKS: &[Block] = &[Block {
+    name: "lang0.wasm",
+    lang: "json",
+    text: include_str!("../schema/lang0.wasm.json"),
+    file: "crates/lang0-wasm/schema/lang0.wasm.json",
+    line: 0,
+}];
 
 pub fn json(name: &str) -> serde_json::Value {
     json_in(BLOCKS, name)
