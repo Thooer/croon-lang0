@@ -25,6 +25,11 @@ pub fn blocks_json(name: &str) -> Json {
     blocks::json(name)
 }
 
+/// 本 crate 的 block，找不到的去它依赖的 crate；下游的 block 要 `$block` 引用 `lang0.surface` 时接进自己的链。
+pub fn block(name: &str) -> Option<&'static croon_eval::blocks::Block> {
+    blocks::block(name)
+}
+
 use croon_eval::host::{CheckError, HostError, Language, Read, Session};
 use serde_json::Value as Json;
 use std::collections::BTreeMap;
