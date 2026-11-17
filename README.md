@@ -17,3 +17,7 @@
 本仓库是独立 Cargo workspace。构建与测试只使用本仓库的 crates 和依赖。依赖并排放置的 croon 仓库（path 依赖），目录布局为 `../croon`。WASM bridge 测试前需要先构建 guest，具体命令写在 `docs/Engineering.md`。
 
 文档入口是 `docs/README.md`。写法、类型、Port 与交出在 `docs/README.md`，首版清单在 `docs/Subset.md`，语义在 `docs/Evaluator.md`，实现与隔离在 `docs/Engineering.md`。
+
+## 许可证
+
+Apache License 2.0，全文见 LICENSE。

@@ -3,6 +3,8 @@ name = "lang0-wasm"
 description = "lang0@1 的 WASM 隔离装配。"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
+repository.workspace = true
 rust-version.workspace = true
 publish.workspace = true
 
