@@ -290,6 +290,27 @@ pub fn unsupported(name: &str) -> String {
         "Ellipsis" => "用 pass 代替".into(),
         "类型别名" => "首版不收类型别名".into(),
         "装饰器" => "首版不收装饰器".into(),
-        _ => format!("lang0@1 首版不收 {name}"),
+        "AnnAssign" => format!(
+            "lang0@1 首版不收 AnnAssign；{}",
+            instead("AnnAssign").unwrap()
+        ),
+        _ => match instead(name) {
+            Some(hint) => format!("lang0@1 首版不收 {name}；{hint}"),
+            None => format!("lang0@1 首版不收 {name}"),
+        },
     }
+}
+
+/// 常被写出来的、子集里没有的名字，说用什么代替：规则与措辞见 docs/Subset.md「拦下时说什么」。
+fn instead(name: &str) -> Option<&'static str> {
+    const STR_CASE: &str = "子集里的字符串方法只有 join、split、strip、startswith、endswith、replace、format、index；要大小写转换或字符分类，对照两段字符串逐字符查，如 lower[upper.index(c)]";
+    Some(match name {
+        "AnnAssign" => "局部变量不写类型，写成 x = []；类型只标在函数的参数与返回值上",
+        ".lower" | ".upper" | ".casefold" | ".title" | ".capitalize" | ".swapcase" | ".isspace"
+        | ".isdigit" | ".isalpha" | ".isalnum" | ".ljust" | ".rjust" | ".zfill" | ".count"
+        | ".find" | ".rsplit" | ".splitlines" | ".lstrip" | ".rstrip" => STR_CASE,
+        "set" | "frozenset" => "用 dict 的键代替：seen = {}、seen[x] = True、x in seen；去重并保持顺序用 dict 与列表一起",
+        _ if name.starts_with("str_") => "子集里的内建函数只有 len、range、str、int、float、bool、list、dict、isinstance、min、max、sorted、enumerate、zip、any、all、sum、abs；方法写成 s.split()，不是函数",
+        _ => return None,
+    })
 }

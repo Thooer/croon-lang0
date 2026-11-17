@@ -51,6 +51,10 @@
 | 顶层的引用值，如 `exec = Exec()` | 引用值写在 `main` 的参数里，工具在外层函数里捕获它 |
 | 字面量上用 `is`，如 `x is 1` | 用 `==` 比较值 |
 | 字符串字面量上用 `%` | 用 f-string 或 str.format 代替 % |
+| `AnnAssign`，如 `x: list[int] = []` | 局部变量不写类型，写成 `x = []`；类型只标在函数的参数与返回值上 |
+| 字符串方法 `lower`、`upper`、`casefold`、`title`、`capitalize`、`swapcase`、`isspace`、`isdigit`、`isalpha`、`isalnum`、`ljust`、`rjust`、`zfill`、`count`、`find`、`rsplit`、`splitlines`、`lstrip`、`rstrip` | 子集里的字符串方法只有 join、split、strip、startswith、endswith、replace、format、index；要大小写转换或字符分类，对照两段字符串逐字符查，如 `lower[upper.index(c)]` |
+| `set`、`frozenset` | 用 dict 的键代替：`seen = {}`、`seen[x] = True`、`x in seen`；去重并保持顺序用 dict 与列表一起 |
+| `str_split` 这类不存在的函数名 | 子集里的内建函数只有 len、range、str、int、float、bool、list、dict、isinstance、min、max、sorted、enumerate、zip、any、all、sum、abs；方法写成 `s.split()`，不是函数 |
 
 ## 异常的消息
 
