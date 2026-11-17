@@ -181,6 +181,8 @@ limit 不是 Exception：ReAct 这类代码用 `except Exception` 把工具的�
 
 ## 待定
 
+- 模块公开面的推导：宿主要为一个模块目录推出各模块的公开面（顶层不以下划线开头的函数、TypedDict、Port、Schema），规则与推 Interface、`croon.tool` 的说明相同，作为包的索引交给模型按需读，见 croon-app:docs/Library/Packages.md「包」。现在 `lang0::interface` 只推 `main`；要一个公开 API 枚举模块的顶层定义并逐个推导，写进 crate 头部。场景：croon-app 的管理器「看」。
+- Bundle 字段的写法：croon 的 value.schema 若能标出「这个字段是 Bundle」（见 croon:docs/Kernel/Value.md「待定」），Lang0 要有对应的类型写法，如 `croon` 里的一个类型名，推导时生成那个关键字。随上游定。场景：一个 Definition 收两个目录。
 - 模块的白名单：首版只开 typing，见 Subset.md。候选还有 dataclasses、enum、functools、json、math、itertools、collections；每开一个都随 `lang0@1` 冻结，关掉会破坏用到它的 Definition，所以从少开起。concurrent.futures 首版不收：并发还没有场景验收，见 Evaluator.md 的待定，带着它冻结，以后再加入显式 Bundle 输入与产物。
 - Library 的代码与组合见 croon-app:docs/Library/README.md「地图」；Lang0 只规定它所运行的模块目录与 import 语义。
 - use、denied、type 要不要再继承 Python 的异常类，如 type 同时继承 TypeError，让具体的 except 也接得住；加了会改变哪些 except 接得住，所以在 `lang0@1` 发布前定。没有场景。
