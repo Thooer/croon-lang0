@@ -47,25 +47,7 @@ Lang0 的求值器、降与隔离。写法在 README.md，语义在 Evaluator.md
 
 登记模块只导出 memory、alloc(i32) → i32、call(i32, i32) → i64；call 收一段 JSON 字节，返回值低 32 位是输出指针，高 32 位是长度。输入由 guest 接管并释放，输出由 guest 保留到下一次 call。只导入 kernel.read(kind, request_ptr, request_len, out_ptr, capacity) → i32：kind 为 0 读字节、1 读 JSON、2 读 Bundle 描述；request 是含 id 与 consumed_keys 的 JSON，代码装载的 consumed_keys 为 null；capacity 为 0 时询问长度，否则填充缓冲区。不可读返回 −1，桥或读取服务故障交回宿主。每次读取都使用当前调用的读取者，不跨调用保留资格。校验器与求值器同源码编入模块；Kernel 独立检查行动。
 
-```json lang0.wasm
-{
-  "in": {
-    "anyOf": [
-      {"type":"object","properties":{"op":{"enum":["check"]},"definition":{}},"required":["op","definition"],"additionalProperties":false},
-      {"type":"object","properties":{"op":{"enum":["open"]},"instance":{"type":"string"},"birth":{"$block":"definition.eval#/in/properties/birth"},"results":{"$block":"definition.eval#/in/properties/results"}},"required":["op","instance","birth","results"],"additionalProperties":false},
-      {"type":"object","properties":{"op":{"enum":["resume"]},"results":{"$block":"definition.eval#/in/properties/results"}},"required":["op","results"],"additionalProperties":false}
-    ]
-  },
-  "out": {
-    "anyOf": [
-      {"type":"object","properties":{"ok":{"enum":[true]}},"required":["ok"],"additionalProperties":false},
-      {"type":"object","properties":{"ok":{"enum":[true]},"value":{"$block":"definition.eval#/out"}},"required":["ok","value"],"additionalProperties":false},
-      {"type":"object","properties":{"ok":{"enum":[false]},"message":{"type":"string"}},"required":["ok","message"],"additionalProperties":false},
-      {"type":"object","properties":{"error":{"type":"string"}},"required":["error"],"additionalProperties":false}
-    ]
-  }
-}
-```
+形状是 `lang0.wasm`。
 
 check 的正常拒绝是 ok:false；open 的成功是仅有 ok:true；resume 成功的 value 是契约输出；error 或与操作不符的响应是宿主故障。模块可共享编译结果，单元与读取资格不共享；故障单元丢弃，修复后显式重开。
 

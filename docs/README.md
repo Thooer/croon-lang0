@@ -10,7 +10,6 @@ Lang0 是第一种 Language，ID 为 `lang0@1`。body.source 存的是 Surface�
 - 必须自己拥有的，正是 Python 不提供的：交出与取、引用值、并发、键、资源的度量。其余照用，不自造关键字。
 - 没有采用别的语言作 Surface，如 Go、OCaml、Rust、TypeScript：body 搬运的多是 JSON 形状的值，静态类型的写法在每个边界多一道解码；失败默认向外传播，与 Go 的错误值、Rust 的 Result 相反；Signature 要从类型推出 Schema，Go 没有联合与字面量类型；Definition 构造完就实例化，不经编译，用它们作 Surface，要么把编译器放进构造，要么自己再写一个解释器。TypeScript 的类型对得上，但 `==` 的隐式转换、`this`、`null` 与 `undefined` 两个空值、事件循环，要拦的不会比 Python 少。
 
-
 ## 拦什么
 
 这里是 Python 里有、因上面那条判据而拦下或改定的；子集里没有的其余构造同样处理。拦下的 builtin 仍有名字，调用它以确定的失败报出用什么代替：写成「用 X 代替 Y」，不写「不允许」。
@@ -25,7 +24,6 @@ Lang0 是第一种 Language，ID 为 `lang0@1`。body.source 存的是 Surface�
 | 不可变值的同一性 | `x is 1000`、字符串驻留 | `is` 只用于 None、True、False 与可变对象；两边都是不可变的值时以确定的失败报出用 `==` | 小整数缓存与驻留取决于编译单元，降法会改变它 |
 | 宿主的数学库 | math.sin、非整数次幂 | 不用宿主的 libm：不进子集，或由 Lang0 自带实现 | 宿主 |
 | 按数据找名字 | eval、exec、compile、locals、globals、vars、`__import__`、dunder 属性 | 拦 | 规则 3（Required port 不能按数据找到）；兼作纵深防御 |
-
 
 ## 各构造
 
@@ -43,22 +41,11 @@ Lang0 是第一种 Language，ID 为 `lang0@1`。body.source 存的是 Surface�
 | functools.partial | 放开 | `.func`、`.args`、`.keywords` 读不出来：绑上的参数读不出来 |
 | 失败 | Python 的异常照用 | `except KeyError` 接的就是 Python 的 KeyError，见「失败」 |
 
-
 ## 模块
 
 body 是只含 source 与可选 modules 的对象。source 是 `main` 所在模块的源码字符串，modules 是目录 Bundle ID；不使用顶层 code 字段。模块目录采用 croon:docs/Tree.md「Tree」的形状，作为固定的目录 Bundle；文件和子目录都指向 Bundle。import 照 Python 的目录语义：目录顶层是起点，`a.b` 找 `a/b.py` 或 `a/b/`，包可以没有 `__init__.py`，包内可以相对 import。模块目录顶层不能占用 `croon` 或白名单模块名，路径经过 link 时拒绝。目录的 Tree、导入与物化归 croon-app:docs/Directory/README.md「Tree」。
 
-```json lang0.body
-{
-  "type": "object",
-  "properties": {
-    "source": {"type": "string"},
-    "modules": {"type": "string", "description": "固定模块目录 Bundle ID"}
-  },
-  "required": ["source"],
-  "additionalProperties": false
-}
-```
+形状是 `lang0.body`。
 
 构造检查和 open 装载都只读 Definition Bundle 的固定闭包，不借构造者或 Instance 的额外取得范围。模块顶层在 import 时求值一次，受同样的资源上限。缺少代码依赖时构造失败；补依赖得到另一份完整 Definition 身份。
 
@@ -124,7 +111,6 @@ Lang0 的类型是 value.schema 的另一种写法，不另设类型系统，语
 - int 在求值器里照 Python 无界，按字长计步；只在进出 Value 的边界上（交出、done、Signature 与 `croon.tool` 的检查）超出 `number_max` 以 type 失败，不是有限数的 float 同样。不把 int 限在这个范围里：那样多一处与 Python 的差异，好处只是错报在算出它的那一步。
 - 表外的标注推不出 Schema：dataclass、enum 的类之类写在 `main` 或 `tool` 的签名上，构造时报错，说用 TypedDict 或 Literal；函数体内照用，它们的实例不是 Value，交出时以 type 失败。
 
-
 ## Port 与交出
 
 **引用值**是一种自定义的值类型，不透明，守 croon:docs/Kernel/Language.md「一套名字、两种值」的三条规则：没有与字符串互转的方法，repr 与编码成 JSON 时碰到就失败，进不了交出的 Value。交出统一使用 `croon.send`；引用值本身不可调用。
@@ -165,7 +151,6 @@ def main(task: str, engine: Generate, me: Chat, inbox: Inbox(Chat)) -> str:
 
 它们不可变，记的是已经发生的事。它们不是 Value，交出时按规则 2 以 type 失败，报错说用 `.value` 取出数据。交给并发时按组成部分过去：数据深拷贝，引用值原样传。所以它们是同一种东西：由数据与引用值组成的不可变的值。
 
-
 ## 取
 
 ```python
@@ -179,7 +164,6 @@ a = receive(inbox, sender = s)  # 只取某个 Instance 交来的
 - `a.port` 是传进来的那个 Inbox 本身，可以写 `if a.port == done:`。
 - via 与 sender 收字符串，认出别人的标识是数据。via 取自回执的 `derived[名字].handle` 或别的到达的 `.via`，sender 取自 `.sender` 或名册。
 - 参数名与 Kernel 的键相同：`timeout`、`sender`。Kernel 不用 from，因为它是 Python 的保留字。
-
 
 ## 失败
 

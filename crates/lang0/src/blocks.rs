@@ -1,14 +1,22 @@
-//! block 表：schema/ 下的 JSON 文件直接编进来，不经过 build.rs。
-//! 参考：croon:docs/Kernel/Engineering.md「接口」。
+//! Lang0 的 block：body、首版子集与消息；规则见 `croon_eval::blocks`。
+//! 参考：docs/README.md（模块）；docs/Subset.md。
 
-pub use croon_eval::blocks::{Block, json_in};
+use croon_eval::blocks::{Block, expanded, find};
 
 pub static BLOCKS: &[Block] = &[
     Block {
         name: "lang0.body",
         lang: "json",
-        text: include_str!("../schema/lang0.body.json"),
-        file: "crates/lang0/schema/lang0.body.json",
+        text: r#"{
+  "type": "object",
+  "properties": {
+    "source": {"type": "string"},
+    "modules": {"type": "string", "description": "固定模块目录 Bundle ID"}
+  },
+  "required": ["source"],
+  "additionalProperties": false
+}"#,
+        file: "crates/lang0/src/blocks.rs",
         line: 0,
     },
     Block {
@@ -27,6 +35,12 @@ pub static BLOCKS: &[Block] = &[
     },
 ];
 
+/// 本 crate 的 block，找不到的去它依赖的 crate。
+pub fn block(name: &str) -> Option<&'static Block> {
+    find(BLOCKS, name).or_else(|| croon_eval::blocks::block(name))
+}
+
+/// 一份 block，`$block` 已展开。
 pub fn json(name: &str) -> serde_json::Value {
-    json_in(BLOCKS, name)
+    expanded(name, &block)
 }

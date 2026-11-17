@@ -1,262 +1,54 @@
 {
-  "statements": [
-    "Module",
-    "Expr",
-    "Assign",
-    "AugAssign",
-    "FunctionDef",
-    "Return",
-    "If",
-    "For",
-    "While",
-    "Break",
-    "Continue",
-    "Pass",
-    "Try",
-    "Raise",
-    "Import",
-    "ImportFrom"
-  ],
-  "expressions": [
-    "BoolOp",
-    "BinOp",
-    "UnaryOp",
-    "IfExp",
-    "Dict",
-    "List",
-    "Tuple",
-    "ListComp",
-    "DictComp",
-    "Compare",
-    "Call",
-    "Constant",
-    "JoinedStr",
-    "FormattedValue",
-    "Attribute",
-    "Subscript",
-    "Name",
-    "Starred"
-  ],
-  "operators": [
-    "And",
-    "Or",
-    "Add",
-    "Sub",
-    "Mult",
-    "Div",
-    "FloorDiv",
-    "Mod",
-    "Not",
-    "USub",
-    "Eq",
-    "NotEq",
-    "Lt",
-    "LtE",
-    "Gt",
-    "GtE",
-    "Is",
-    "IsNot",
-    "In",
-    "NotIn"
-  ],
-  "annotation_only": [
-    "BitOr"
-  ],
+  "statements": ["Module", "Expr", "Assign", "AugAssign", "FunctionDef", "Return", "If", "For", "While", "Break", "Continue", "Pass", "Try", "Raise", "Import", "ImportFrom"],
+  "expressions": ["BoolOp", "BinOp", "UnaryOp", "IfExp", "Dict", "List", "Tuple", "ListComp", "DictComp", "Compare", "Call", "Constant", "JoinedStr", "FormattedValue", "Attribute", "Subscript", "Name", "Starred"],
+  "operators": ["And", "Or", "Add", "Sub", "Mult", "Div", "FloorDiv", "Mod", "Not", "USub", "Eq", "NotEq", "Lt", "LtE", "Gt", "GtE", "Is", "IsNot", "In", "NotIn"],
+  "annotation_only": ["BitOr"],
   "builtins": {
-    "len": [
-      "(obj, /)"
-    ],
-    "range": [
-      "(stop, /)",
-      "(start, stop, step=1, /)"
-    ],
-    "str": [
-      "(object='')"
-    ],
-    "int": [
-      "(x=0, /)"
-    ],
-    "float": [
-      "(x=0.0, /)"
-    ],
-    "bool": [
-      "(x=False, /)"
-    ],
-    "list": [
-      "(iterable=(), /)"
-    ],
-    "dict": [
-      "(mapping_or_iterable=(), /, **kwargs)"
-    ],
-    "isinstance": [
-      "(obj, class_or_tuple, /)"
-    ],
-    "min": [
-      "(iterable, /, *, key=None)",
-      "(iterable, /, *, default, key=None)",
-      "(arg1, arg2, /, *args, key=None)"
-    ],
-    "max": [
-      "(iterable, /, *, key=None)",
-      "(iterable, /, *, default, key=None)",
-      "(arg1, arg2, /, *args, key=None)"
-    ],
-    "sorted": [
-      "(iterable, /, *, key=None, reverse=False)"
-    ],
-    "enumerate": [
-      "(iterable, start=0)"
-    ],
-    "zip": [
-      "(*iterables, strict=False)"
-    ],
-    "any": [
-      "(iterable, /)"
-    ],
-    "all": [
-      "(iterable, /)"
-    ],
-    "sum": [
-      "(iterable, /, start=0)"
-    ],
-    "abs": [
-      "(x, /)"
-    ]
+    "len": ["(obj, /)"],
+    "range": ["(stop, /)", "(start, stop, step=1, /)"],
+    "str": ["(object='')"],
+    "int": ["(x=0, /)"],
+    "float": ["(x=0.0, /)"],
+    "bool": ["(x=False, /)"],
+    "list": ["(iterable=(), /)"],
+    "dict": ["(mapping_or_iterable=(), /, **kwargs)"],
+    "isinstance": ["(obj, class_or_tuple, /)"],
+    "min": ["(iterable, /, *, key=None)", "(iterable, /, *, default, key=None)", "(arg1, arg2, /, *args, key=None)"],
+    "max": ["(iterable, /, *, key=None)", "(iterable, /, *, default, key=None)", "(arg1, arg2, /, *args, key=None)"],
+    "sorted": ["(iterable, /, *, key=None, reverse=False)"],
+    "enumerate": ["(iterable, start=0)"],
+    "zip": ["(*iterables, strict=False)"],
+    "any": ["(iterable, /)"],
+    "all": ["(iterable, /)"],
+    "sum": ["(iterable, /, start=0)"],
+    "abs": ["(x, /)"]
   },
   "croon_calls": {
-    "send": [
-      "(ref, value, dependencies=[], attach={})"
-    ],
-    "deliver": [
-      "(value, dependencies)"
-    ],
-    "read_json": [
-      "(id, /)"
-    ],
-    "read_text": [
-      "(id, /)"
-    ]
+    "send": ["(ref, value, dependencies=[], attach={})"],
+    "deliver": ["(value, dependencies)"],
+    "read_json": ["(id, /)"],
+    "read_text": ["(id, /)"]
   },
-  "exceptions": [
-    "BaseException",
-    "Exception",
-    "ArithmeticError",
-    "LookupError",
-    "KeyError",
-    "IndexError",
-    "ValueError",
-    "TypeError",
-    "RuntimeError",
-    "OSError",
-    "ZeroDivisionError",
-    "OverflowError",
-    "AttributeError",
-    "NameError",
-    "UnboundLocalError"
-  ],
+  "exceptions": ["BaseException", "Exception", "ArithmeticError", "LookupError", "KeyError", "IndexError", "ValueError", "TypeError", "RuntimeError", "OSError", "ZeroDivisionError", "OverflowError", "AttributeError", "NameError", "UnboundLocalError"],
   "methods": {
     "dict": {
-      "get": [
-        "(key, default=None, /)"
-      ],
-      "setdefault": [
-        "(key, default=None, /)"
-      ],
-      "keys": [
-        "()"
-      ],
-      "values": [
-        "()"
-      ],
-      "items": [
-        "()"
-      ],
-      "pop": [
-        "(key, /)",
-        "(key, default, /)"
-      ],
-      "update": [
-        "(other=(), /, **kwargs)"
-      ],
-      "clear": [
-        "()"
-      ]
+      "get": ["(key, default=None, /)"], "setdefault": ["(key, default=None, /)"],
+      "keys": ["()"], "values": ["()"], "items": ["()"],
+      "pop": ["(key, /)", "(key, default, /)"], "update": ["(other=(), /, **kwargs)"], "clear": ["()"]
     },
     "list": {
-      "append": [
-        "(object, /)"
-      ],
-      "extend": [
-        "(iterable, /)"
-      ],
-      "pop": [
-        "(index=-1, /)"
-      ],
-      "clear": [
-        "()"
-      ],
-      "index": [
-        "(value, start=0, stop=9223372036854775807, /)"
-      ]
+      "append": ["(object, /)"], "extend": ["(iterable, /)"], "pop": ["(index=-1, /)"], "clear": ["()"],
+      "index": ["(value, start=0, stop=9223372036854775807, /)"]
     },
     "str": {
-      "join": [
-        "(iterable, /)"
-      ],
-      "split": [
-        "(sep=None, maxsplit=-1)"
-      ],
-      "strip": [
-        "(chars=None, /)"
-      ],
-      "startswith": [
-        "(prefix, start=None, end=None, /)"
-      ],
-      "endswith": [
-        "(suffix, start=None, end=None, /)"
-      ],
-      "replace": [
-        "(old, new, count=-1, /)"
-      ],
-      "format": [
-        "(*args, **kwargs)"
-      ],
-      "index": [
-        "(sub, start=None, end=None, /)"
-      ]
+      "join": ["(iterable, /)"], "split": ["(sep=None, maxsplit=-1)"], "strip": ["(chars=None, /)"],
+      "startswith": ["(prefix, start=None, end=None, /)"], "endswith": ["(suffix, start=None, end=None, /)"],
+      "replace": ["(old, new, count=-1, /)"], "format": ["(*args, **kwargs)"], "index": ["(sub, start=None, end=None, /)"]
     },
-    "tuple": {
-      "index": [
-        "(value, start=0, stop=9223372036854775807, /)"
-      ]
-    }
+    "tuple": { "index": ["(value, start=0, stop=9223372036854775807, /)"] }
   },
   "modules": {
-    "typing": [
-      "TypedDict",
-      "NotRequired",
-      "Literal",
-      "Any",
-      "Annotated",
-      "Callable"
-    ],
-    "croon": [
-      "Port",
-      "Inbox",
-      "Schema",
-      "Failure",
-      "Limit",
-      "receive",
-      "tool",
-      "send",
-      "deliver",
-      "read_json",
-      "read_text",
-      "definition",
-      "seat",
-      "roster",
-      "kind",
-      "data"
-    ]
+    "typing": ["TypedDict", "NotRequired", "Literal", "Any", "Annotated", "Callable"],
+    "croon": ["Port", "Inbox", "Schema", "Failure", "Limit", "receive", "tool", "send", "deliver", "read_json", "read_text", "definition", "seat", "roster", "kind", "data"]
   }
 }
