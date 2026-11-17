@@ -63,7 +63,7 @@ Interface 就是 `main` 带类型的签名：
 
 实例化时，in 的各字段、接上的 Reference 与自己的 Provided port 按参数名交给 `main`：值放在 input 里，接线放在附带里。`main` 一生只在实例化时求值一次，不被别的 body 调用；复用代码靠 import 函数，见 croon:docs/Kernel/Definition/README.md「Cognition 与 Charter」。诞生里的其余部分不是参数，见下面的判据。
 
-宿主要拼一份 Definition 时，用 `lang0::interface` 从 body 推出 interface，它与构造检查走同一条装载与子集检查。同一套推导适用于任何函数：没绑定的参数与返回类型给出它的 Schema，函数与各参数的描述取自 docstring 与其中的 `Args:`，规则见下面的「推导」。`croon.tool(f)` 用它把函数变成交给模型的工具：一个工具对象，`.name` 是函数名，`.spec` 是交给 llm 的说明；调用它时，先按推出的 Schema 查交来的 input，再调 f，再查返回值，都由 Kernel 的校验器查。所以模型写错的参数、工具误返回的不是 Value 的东西，都在这次工具调用上失败，不流到下一次交出。正文自己拼不出这些：函数名与 docstring 要经 dunder 属性，被拦下了。没绑定的参数里还有 Port、Inbox 或 `Callable` 类型的，推不出来，报错说在外层函数里捕获它，或用 partial 绑上。`Callable` 是合法的标注，不映射到 value.schema；推 Schema 只发生在 `main` 的签名与 `tool` 上，所以普通函数的参数可以用它。
+宿主要拼一份 Definition 时，用 `lang0::interface` 从 body 推出 interface，它与构造检查走同一条装载与子集检查。同一套推导适用于任何函数：没绑定的参数与返回类型给出它的 Schema，函数与各参数的描述取自 docstring 与其中的 `Args:`，规则见下面的「推导」。宿主要给模块做索引时，用 `lang0::modules` 枚举模块目录里的模块，用 `lang0::surface` 推一个模块的公开面（block `lang0.surface`）：顶层不以下划线开头的函数、TypedDict、Port 与 Schema，函数写标注的源码文本、描述与各参数的说明，声明写推出的 Schema 或 Port spec；单个声明推不出时只在那一项写 `error`，不让一项坏了整份索引。`croon.tool(f)` 用它把函数变成交给模型的工具：一个工具对象，`.name` 是函数名，`.spec` 是交给 llm 的说明；调用它时，先按推出的 Schema 查交来的 input，再调 f，再查返回值，都由 Kernel 的校验器查。所以模型写错的参数、工具误返回的不是 Value 的东西，都在这次工具调用上失败，不流到下一次交出。正文自己拼不出这些：函数名与 docstring 要经 dunder 属性，被拦下了。没绑定的参数里还有 Port、Inbox 或 `Callable` 类型的，推不出来，报错说在外层函数里捕获它，或用 partial 绑上。`Callable` 是合法的标注，不映射到 value.schema；推 Schema 只发生在 `main` 的签名与 `tool` 上，所以普通函数的参数可以用它。
 
 引用值只从三处进来：`main` 的参数、交出的结果、到达。没有环境里的引用值，也没有环境里的 Principal：指向 Principal 的 Reference 同样作为 `main` 的一个 Port 参数接上。函数要用的引用值由调用方给，或捕获外层函数的局部变量，所以一个函数够得到什么，在源码里看得见：它的签名，加上外层函数的局部变量。判据是：作者叫得出名字、又带权利的，显式地传；叫不出名字的，如 Atom 的键，留在求值器里。
 
@@ -181,7 +181,6 @@ limit 不是 Exception：ReAct 这类代码用 `except Exception` 把工具的�
 
 ## 待定
 
-- 模块公开面的推导：宿主要为一个模块目录推出各模块的公开面（顶层不以下划线开头的函数、TypedDict、Port、Schema），规则与推 Interface、`croon.tool` 的说明相同，作为包的索引交给模型按需读，见 croon-app:docs/Library/Packages.md「包」。现在 `lang0::interface` 只推 `main`；要一个公开 API 枚举模块的顶层定义并逐个推导，写进 crate 头部。场景：croon-app 的管理器「看」。
 - Bundle 字段的写法：croon 的 value.schema 若能标出「这个字段是 Bundle」（见 croon:docs/Kernel/Value.md「待定」），Lang0 要有对应的类型写法，如 `croon` 里的一个类型名，推导时生成那个关键字。随上游定。场景：一个 Definition 收两个目录。
 - 模块的白名单：首版只开 typing，见 Subset.md。候选还有 dataclasses、enum、functools、json、math、itertools、collections；每开一个都随 `lang0@1` 冻结，关掉会破坏用到它的 Definition，所以从少开起。concurrent.futures 首版不收：并发还没有场景验收，见 Evaluator.md 的待定，带着它冻结，以后再加入显式 Bundle 输入与产物。
 - Library 的代码与组合见 croon-app:docs/Library/README.md「地图」；Lang0 只规定它所运行的模块目录与 import 语义。

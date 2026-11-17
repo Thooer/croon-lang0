@@ -122,11 +122,64 @@ pub fn load(definition: &Json, read: &dyn Read) -> Result<Program, CheckError> {
         read,
         fault: RefCell::new(None),
     };
-    let result = load_code(definition, &code);
+    let result = load_code(definition, &code, None);
     match code.fault.into_inner() {
         Some(error) => Err(CheckError::Host(error)),
         None => result.map_err(CheckError::Rejected),
     }
+}
+
+/// 以空源码为正文，只装载模块目录里的一个模块（连同它 import 的），供推导公开面。
+pub fn load_module(modules: &str, name: &str, read: &dyn Read) -> Result<Program, CheckError> {
+    let code = CodeRead {
+        read,
+        fault: RefCell::new(None),
+    };
+    let definition = serde_json::json!({"body": {"source": "", "modules": modules}});
+    let result = load_code(&definition, &code, Some(name));
+    match code.fault.into_inner() {
+        Some(error) => Err(CheckError::Host(error)),
+        None => result.map_err(CheckError::Rejected),
+    }
+}
+
+/// 模块目录里所有模块的点分名字，按字典序：`x.py` 是 x，包目录里的 `__init__.py` 是包名，目录里的 `y.py` 是 `目录.y`。
+pub fn module_names(modules: &str, read: &dyn Read) -> Result<Vec<String>, CheckError> {
+    let code = CodeRead {
+        read,
+        fault: RefCell::new(None),
+    };
+    let mut out = vec![];
+    let result = walk(&code, modules, "", &mut out);
+    match code.fault.into_inner() {
+        Some(error) => Err(CheckError::Host(error)),
+        None => result.map(|()| out).map_err(CheckError::Rejected),
+    }
+}
+
+fn walk(code: &CodeRead<'_>, id: &str, prefix: &str, out: &mut Vec<String>) -> Result<(), String> {
+    let tree = code.directory(id)?;
+    let entries = tree.as_object().ok_or("/body/modules: 须是 Tree")?;
+    for (name, entry) in entries {
+        if let Some(dir) = entry.get("dir").and_then(Json::as_str) {
+            if dunder(name) || name.contains('.') {
+                continue;
+            }
+            let path = format!("{prefix}{name}");
+            walk(code, dir, &format!("{path}."), out)?;
+        } else if let Some(stem) = name.strip_suffix(".py") {
+            if stem == "__init__" {
+                if !prefix.is_empty() {
+                    out.push(prefix.trim_end_matches('.').to_owned());
+                }
+            } else if !dunder(stem) && !stem.contains('.') {
+                out.push(format!("{prefix}{stem}"));
+            }
+        }
+    }
+    out.sort();
+    out.dedup();
+    Ok(())
 }
 
 struct CodeRead<'a> {
@@ -169,7 +222,11 @@ impl CodeRead<'_> {
     }
 }
 
-fn load_code(definition: &Json, read: &CodeRead<'_>) -> Result<Program, String> {
+fn load_code(
+    definition: &Json,
+    read: &CodeRead<'_>,
+    ensure: Option<&str>,
+) -> Result<Program, String> {
     if croon_eval::schema::validate(&crate::blocks::json("lang0.body"), &definition["body"])
         .is_err()
     {
@@ -205,6 +262,9 @@ fn load_code(definition: &Json, read: &CodeRead<'_>) -> Result<Program, String> 
         },
     };
     loader.add("", "/body".into(), source.into(), false)?;
+    if let Some(name) = ensure {
+        loader.ensure(name)?;
+    }
     Ok(loader.program)
 }
 

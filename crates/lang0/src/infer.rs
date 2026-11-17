@@ -168,6 +168,84 @@ pub(crate) fn tool(
     ))
 }
 
+/// 一个模块的公开面：顶层不以下划线开头的函数、TypedDict、Port 与 Schema，形状是 block `lang0.surface`。
+/// 函数写它的签名（按源码里的标注）、描述与各参数的说明；声明写推出的 Schema 或 Port spec。
+/// 单项推不出时写 `error`，不让一项坏了整份索引。
+pub fn surface(program: &Program, module: &str) -> Json {
+    let m = &program.modules[module];
+    let text = |e: &Expr| m.source.get(e.span.clone()).unwrap_or("").to_owned();
+    let doc = match m.ast.body.first().map(|s| &s.kind) {
+        Some(StmtKind::Expr(e)) => e.string().map(str::trim).unwrap_or("").to_owned(),
+        _ => String::new(),
+    };
+    let mut items = vec![];
+    for stmt in &m.ast.body {
+        match &stmt.kind {
+            StmtKind::FunctionDef(f) if !f.name.starts_with('_') => {
+                let (description, docs) = docstring::extract(f);
+                let params: Vec<Json> = f
+                    .args
+                    .iter()
+                    .map(|a| {
+                        let mut p = json!({"name": a.name});
+                        if let Some(t) = &a.annotation {
+                            p["type"] = json!(text(t));
+                        }
+                        if let Some(d) = &a.default {
+                            p["default"] = json!(text(d));
+                        }
+                        if let Some(d) = docs.get(&a.name) {
+                            p["description"] = json!(d);
+                        }
+                        p
+                    })
+                    .collect();
+                let mut item = json!({"name": f.name, "kind": "function", "description": description, "params": params});
+                if let Some(r) = &f.returns {
+                    item["returns"] = json!(text(r));
+                }
+                items.push(item);
+            }
+            StmtKind::Assign { targets, value } if targets.len() == 1 => {
+                let ExprKind::Name(name) = &targets[0].kind else {
+                    continue;
+                };
+                if name.starts_with('_') {
+                    continue;
+                }
+                let ExprKind::Call { func, .. } = &value.kind else {
+                    continue;
+                };
+                let is = |n: &str| {
+                    matches!(program.resolve_expr(module, func),
+                        Ok(Resolved::Builtin(b)) if b == n)
+                };
+                if !(is("typing.TypedDict") || is("croon.Port") || is("croon.Schema")) {
+                    continue;
+                }
+                let mut item = json!({"name": name});
+                match declaration(program, module, value) {
+                    Ok((true, spec)) => {
+                        item["kind"] = json!("port");
+                        item["spec"] = spec;
+                    }
+                    Ok((false, schema)) => {
+                        item["kind"] = json!("schema");
+                        item["spec"] = schema;
+                    }
+                    Err(error) => {
+                        item["kind"] = json!(if is("croon.Port") { "port" } else { "schema" });
+                        item["error"] = json!(error);
+                    }
+                }
+                items.push(item);
+            }
+            _ => {}
+        }
+    }
+    json!({"module": module, "description": doc, "items": items})
+}
+
 pub fn is_port(program: &Program, module: &str, expr: &Expr) -> bool {
     matches!(
         (Infer {

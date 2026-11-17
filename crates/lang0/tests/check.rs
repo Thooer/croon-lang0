@@ -5,6 +5,8 @@
 mod imports;
 #[path = "cases/inference.rs"]
 mod inference;
+#[path = "cases/surface.rs"]
+mod surface;
 mod support;
 
 use croon_eval::host::Language;

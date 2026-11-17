@@ -1,0 +1,41 @@
+{
+  "description": "一个模块的公开面：顶层不以下划线开头的函数、TypedDict、Port 与 Schema",
+  "type": "object",
+  "properties": {
+    "module": {"type": "string", "description": "点分的模块名"},
+    "description": {"type": "string", "description": "模块的 docstring"},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "kind": {"enum": ["function", "schema", "port"]},
+          "description": {"type": "string", "description": "函数的 docstring 去掉 Args 之后"},
+          "params": {
+            "type": "array",
+            "description": "函数的参数，按书写的先后",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string"},
+                "type": {"type": "string", "description": "标注的源码文本"},
+                "default": {"type": "string", "description": "默认值的源码文本"},
+                "description": {"type": "string", "description": "docstring 的 Args 里的说明"}
+              },
+              "required": ["name"],
+              "additionalProperties": false
+            }
+          },
+          "returns": {"type": "string", "description": "返回类型标注的源码文本"},
+          "spec": {"description": "schema 的 Schema，或 port 的 Port spec"},
+          "error": {"type": "string", "description": "这一项推不出时的诊断"}
+        },
+        "required": ["name", "kind"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["module", "description", "items"],
+  "additionalProperties": false
+}

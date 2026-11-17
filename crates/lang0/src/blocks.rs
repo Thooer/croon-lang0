@@ -4,7 +4,7 @@
 use croon_eval::blocks::{Block, chain, expanded, find};
 
 pub static BLOCKS: &[Block] =
-    croon_eval::block_files!["lang0.body", "lang0.messages", "lang0.subset",];
+    croon_eval::block_files!["lang0.body", "lang0.messages", "lang0.subset", "lang0.surface",];
 
 /// 本 crate 的 block，找不到的去它依赖的 crate。
 pub fn block(name: &str) -> Option<&'static Block> {
