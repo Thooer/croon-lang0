@@ -48,7 +48,7 @@ croon-lang0 实现 lang0@1：第一种冻结语义的 Language。已发布的 ID
 ### 取用
 
 - 代码取用的 JSON 形状叫 block，各有一个名字：ASCII 小写字母、数字与点，连同上下游的在内唯一。block 只在代码一侧写一次，是那份形状的唯一出处；文档按名字引用，不内嵌副本。
-- 大的 block 在 `crates/*/schema/<名字>.json` 各成一个文件，用 `include_str!` 编进来；只有几行的直接写在那个 crate 的 `src/blocks.rs` 里。名字就是去哪找它。
+- 每份 block 在用它的最低一层 crate 的 `schema/<名字>.json`，一个文件一份，文件名就是 block 名；该 crate 的 `src/blocks.rs` 用 `croon_eval::block_files!` 列出名字，把文件编进来。名字就是去哪找它：先看用它的 crate 的 `schema/`，再沿依赖往下找；上下游重名在构建时报错，不会悄悄盖掉。
 - 一份 block 要用另一份的形状，写 `{"$block": "名字"}` 或 `{"$block": "名字#/JSON Pointer"}`，可以指向上游 crate 的 block。文件里留着 `$block`，取用时由各 crate 的 `blocks::json` 经 `croon_eval::blocks::expanded` 展开，展开规则以它的文档为准。
 - 改形状时，block 与说明它的文档在同一次提交里改。
 
